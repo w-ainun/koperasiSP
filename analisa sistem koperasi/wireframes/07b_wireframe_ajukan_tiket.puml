@@ -1,0 +1,55 @@
+@startuml Wireframe_Ajukan_Tiket
+
+title **Wireframe Form Ajukan Tiket Bantuan** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Bantuan | [Logout]}
+  --
+  {
+    <b>AJUKAN TIKET BANTUAN
+    ==
+    {+
+      {
+        Kategori Masalah | ^Pilih Kategori               ^
+        .
+        <i>Kategori: Simpanan, Pinjaman, Keanggotaan, Teknis, Lainnya</i>
+        --
+        Subjek           | "                                                              "
+        --
+        Deskripsi Masalah
+        {SI
+        Jelaskan masalah Anda secara detail...
+        .
+        .
+        .
+        .
+        }
+        --
+        <b>Upload Bukti (Opsional)
+        [ Choose File ] | <i>Max 5MB (JPG, PNG, PDF)</i>
+        .
+        {
+          [screenshot1.jpg] [X] | [bukti_transfer.pdf] [X]
+        }
+        --
+        No. Transaksi Terkait (Opsional)
+        "TRX-                                        "
+      }
+    }
+    ==
+    {+
+      <b>INFORMASI KONTAK
+      --
+      Email       | ahmad.santoso@email.com
+      No. HP      | 081234567890
+      .
+      [X] Kirim notifikasi update tiket via WhatsApp
+      [X] Kirim notifikasi update tiket via Email
+    }
+    ==
+    { [ <b>KIRIM TIKET </b>] | [ Batal ] }
+  }
+}
+
+@enduml

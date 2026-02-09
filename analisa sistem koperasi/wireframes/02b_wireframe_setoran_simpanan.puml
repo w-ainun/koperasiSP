@@ -1,0 +1,60 @@
+@startuml Wireframe_Setoran_Simpanan
+
+title **Wireframe Form Setoran Simpanan** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>SETORAN SIMPANAN
+    ==
+    {+
+      <b>Pilih Jenis Simpanan
+      --
+      {
+        (X) <b>Simpanan Sukarela</b> - Bisa ditarik kapan saja
+        ( ) <b>Simpanan Wajib</b> - Rp 100.000/bulan (Auto-debet)
+      }
+    }
+    ==
+    {+
+      <b>Nominal Setoran
+      --
+      Rp | "          500.000                      "
+      .
+      {
+        [ Rp 100rb ] | [ Rp 500rb ] | [ Rp 1jt ] | [ Rp 5jt ]
+      }
+    }
+    ==
+    {+
+      <b>Pilih Metode Pembayaran
+      --
+      {
+        (X) <b>Virtual Account</b>
+            BCA, BNI, BRI, Mandiri
+        ( ) <b>E-Wallet</b>
+            OVO, Dana, GoPay, ShopeePay
+        ( ) <b>QRIS</b>
+            Scan QR dari aplikasi manapun
+        ( ) <b>Transfer Manual</b>
+            Upload bukti transfer
+      }
+    }
+    ==
+    {+
+      <b>Ringkasan
+      --
+      Jenis Simpanan  | Simpanan Sukarela
+      Nominal         | Rp 500.000
+      Biaya Admin     | Rp 0
+      --
+      <b>Total Bayar | <b>Rp 500.000
+    }
+    ==
+    { [ <b>LANJUT PEMBAYARAN </b>] | [ Batal ] }
+  }
+}
+
+@enduml

@@ -1,0 +1,48 @@
+@startuml Wireframe_Manajemen_SHU_Admin
+
+title **Wireframe Manajemen SHU (Admin)** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Simpanan | Pinjaman | SHU | Pengaturan}
+  --
+  {
+    <b>MANAJEMEN SISA HASIL USAHA (SHU)
+    ==
+    { [<&pulse> Dashboard] | [<&cog> Konfigurasi] | [<&calculator> Perhitungan] | [<&share> Distribusi] | [<&document> Laporan] }
+    ==
+    {+
+      <b>KONFIGURASI ALOKASI SHU - Tahun Buku 2025
+      --
+      Laba Bersih Tahun 2025: <b>Rp 2.500.000.000</b>
+      ==
+      {#
+        Komponen Alokasi | Persentase | Nominal
+        Cadangan Modal | "  25  " % | Rp 625.000.000
+        Jasa Anggota (Modal/Simpanan) | "  30  " % | Rp 750.000.000
+        Jasa Anggota (Pinjaman) | "  20  " % | Rp 500.000.000
+        Dana Pengurus & Karyawan | "  10  " % | Rp 250.000.000
+        Dana Pendidikan & Sosial | "  10  " % | Rp 250.000.000
+        Dana Pembangunan Daerah | "   5  " % | Rp 125.000.000
+        --
+        <b>TOTAL | <b>100 % | <b>Rp 2.500.000.000
+      }
+      .
+      <i><color:green>✓ Total persentase valid (100%)</color>
+      .
+      [ <b>Simpan Konfigurasi </b>]
+    }
+    ==
+    {+
+      <b>STATUS PROSES SHU
+      --
+      {
+        [✓] 1. Tarik Data Partisipasi | [✓] 2. Konfigurasi Alokasi | [○] 3. Hitung SHU | [○] 4. Review & Publish | [○] 5. Distribusi
+      }
+      .
+      [ << Kembali ] | [ Lanjut: Hitung SHU >> ]
+    }
+  }
+}
+
+@enduml

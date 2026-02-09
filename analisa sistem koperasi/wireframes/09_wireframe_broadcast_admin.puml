@@ -1,0 +1,85 @@
+@startuml Wireframe_Broadcast_Admin
+
+title **Wireframe Broadcast Pengumuman (Admin)** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Broadcast | Helpdesk | Pengaturan}
+  --
+  {
+    <b>KIRIM PENGUMUMAN MASSAL
+    ==
+    {
+      {+
+        <b>KONTEN PENGUMUMAN
+        --
+        Judul Pengumuman
+        "Informasi Libur Hari Raya Idul Fitri 2026         "
+        --
+        Isi Pengumuman
+        {SI
+        Kepada Yth. Seluruh Anggota KSP Sejahtera Abadi,
+        
+        Dengan hormat, kami informasikan bahwa kantor
+        Koperasi akan libur pada:
+        
+        Tanggal: 28 Maret - 5 April 2026
+        
+        Layanan digital tetap buka 24 jam.
+        Terima kasih.
+        .
+        }
+        --
+        [ <&file> Gunakan Template ] | [ <&image> Tambah Gambar ]
+      }
+      |
+      {+
+        <b>TARGET PENERIMA
+        --
+        (X) Semua Anggota (1,234)
+        ( ) Kelompok Tertentu
+        --
+        <b>Filter (jika kelompok tertentu):
+        [ ] Anggota dengan pinjaman aktif (456)
+        [ ] Anggota status aktif (1,200)
+        [ ] Anggota baru (< 6 bulan) (87)
+        [ ] Anggota dengan tunggakan (23)
+        ==
+        <b>CHANNEL PENGIRIMAN
+        --
+        [X] Push Notification
+        [X] In-App Banner
+        [X] Email
+        [X] WhatsApp
+        ==
+        <b>JADWAL KIRIM
+        --
+        (X) Kirim Sekarang
+        ( ) Jadwalkan
+            Tanggal | "DD/MM/YYYY"
+            Waktu   | "HH:MM"
+      }
+    }
+    ==
+    {+
+      <b>PREVIEW
+      --
+      {
+        =============================
+        <b>KSP SEJAHTERA ABADI</b>
+        .
+        <b>Informasi Libur Hari Raya
+        Idul Fitri 2026</b>
+        .
+        Kepada Yth. Seluruh Anggota...
+        .
+        [Baca Selengkapnya]
+        =============================
+      }
+    }
+    ==
+    { [ <b>KIRIM PENGUMUMAN </b>] | [ Simpan Draft ] | [ Batal ] }
+  }
+}
+
+@enduml

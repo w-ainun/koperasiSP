@@ -1,0 +1,85 @@
+@startuml Wireframe_Input_Jaminan_Admin
+
+title **Wireframe Input Jaminan Barang (Admin)** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Pinjaman | Jaminan | Pengaturan}
+  --
+  {
+    <b>INPUT DATA JAMINAN BARU
+    ==
+    {
+      {+
+        <b>INFORMASI PINJAMAN
+        --
+        No. Pinjaman    | ^PJM-2024-00789^ | [ Cari ]
+        Nama Anggota    | Dewi Anggraini
+        Nominal Pinjaman| Rp 30.000.000
+      }
+    }
+    ==
+    {
+      {+
+        <b>KATEGORI JAMINAN
+        --
+        (X) Kendaraan (BPKB)
+        ( ) Properti (Sertifikat)
+        ( ) Logam Mulia (Emas)
+        ( ) Elektronik
+      }
+      |
+      {+
+        <b>DATA KENDARAAN
+        --
+        Merk/Tipe       | "Honda Vario 150                  "
+        Tahun Pembuatan | "2023     "
+        Warna           | "Hitam                            "
+        No. Polisi      | "B 1234 XYZ                       "
+        No. Rangka      | "MH1JFZ11XNK789012                 "
+        No. Mesin       | "JFZ1E-7890123                     "
+      }
+    }
+    ==
+    {
+      {+
+        <b>DATA DOKUMEN (BPKB)
+        --
+        No. BPKB        | "H-87654321                        "
+        Nama di BPKB    | "Dewi Anggraini                    "
+        .
+        [X] Nama sesuai dengan data anggota
+        --
+        Tgl Kadaluarsa  | "                    " (jika ada)
+      }
+      |
+      {+
+        <b>NILAI TAKSIRAN
+        --
+        Nilai Pasar     | Rp "   18.000.000  "
+        Nilai Likuiditas| Rp "   15.000.000  "
+        --
+        LTV Ratio       | <b>50%</b>
+        <i>(Pinjaman / Nilai Likuiditas)</i>
+        .
+        <color:green>✓ LTV Ratio dalam batas aman (< 80%)</color>
+      }
+    }
+    ==
+    {+
+      <b>UPLOAD FOTO & DOKUMEN
+      --
+      {
+        Foto Tampak Depan   | [ Choose File ] | <color:green>✓ depan.jpg</color>
+        Foto Tampak Samping | [ Choose File ] | <color:green>✓ samping.jpg</color>
+        Foto No. Rangka     | [ Choose File ] | <color:red>Belum diupload</color>
+        Foto No. Mesin      | [ Choose File ] | <color:green>✓ mesin.jpg</color>
+        Scan BPKB (PDF)     | [ Choose File ] | <color:green>✓ bpkb.pdf</color>
+      }
+    }
+    ==
+    { [ <b>SIMPAN JAMINAN </b>] | [ Simpan Draft ] | [ Batal ] }
+  }
+}
+
+@enduml

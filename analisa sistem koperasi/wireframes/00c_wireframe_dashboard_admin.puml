@@ -1,0 +1,96 @@
+@startuml Wireframe_Dashboard_Admin
+
+title **Wireframe Dashboard Admin** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Simpanan | Pinjaman | Laporan | Helpdesk | Pengaturan | [Logout]}
+  --
+  {
+    <b>DASHBOARD ADMIN
+    Tanggal: 18 Januari 2026 | Login sebagai: admin01
+    ==
+    {
+      {+
+        <b>TOTAL ANGGOTA
+        --
+        <b><size:20>1,234</size>
+        <color:green>+12 bulan ini</color>
+      }
+      |
+      {+
+        <b>TOTAL SIMPANAN
+        --
+        <b><size:20>Rp 15.8 M</size>
+        <color:green>+Rp 500jt bulan ini</color>
+      }
+      |
+      {+
+        <b>TOTAL PINJAMAN
+        --
+        <b><size:20>Rp 12.5 M</size>
+        <color:green>+Rp 800jt bulan ini</color>
+      }
+      |
+      {+
+        <b>NPL RATIO
+        --
+        <b><size:20>2.5%</size>
+        <color:green>↓ 0.3% dari bulan lalu</color>
+      }
+    }
+    ==
+    {
+      {+
+        <b><&bell> PERLU PERHATIAN
+        --
+        <color:red>●</color> <b>5</b> Pendaftaran anggota menunggu verifikasi
+        <color:red>●</color> <b>3</b> Pengajuan pinjaman menunggu review
+        <color:orange>●</color> <b>8</b> Setoran manual menunggu konfirmasi
+        <color:orange>●</color> <b>12</b> Tiket bantuan belum diproses
+        <color:blue>●</color> <b>15</b> Anggota dengan angsuran jatuh tempo
+      }
+      |
+      {+
+        <b><&graph> GRAFIK TRANSAKSI (7 Hari)
+        --
+        {
+          .
+          █ █ ▄ █ ▄ ▄ █
+          S S R K J S M
+          .
+        }
+        .
+        Total: <b>Rp 1.2 M</b> (156 transaksi)
+      }
+    }
+    ==
+    {
+      {+
+        <b>ANTREAN VERIFIKASI SETORAN
+        --
+        {#
+          Waktu | Anggota | Nominal | Aksi
+          10:30 | Ahmad S. | Rp 500.000 | [✓] [✗]
+          10:15 | Budi W. | Rp 1.000.000 | [✓] [✗]
+          09:45 | Citra D. | Rp 250.000 | [✓] [✗]
+        }
+        [ Lihat Semua (8) >> ]
+      }
+      |
+      {+
+        <b>PENGAJUAN PINJAMAN PENDING
+        --
+        {#
+          Anggota | Nominal | Tenor | Aksi
+          Dewi A. | Rp 15jt | 12 bln | [ Review ]
+          Eko P. | Rp 25jt | 24 bln | [ Review ]
+          Fitri R. | Rp 10jt | 12 bln | [ Review ]
+        }
+        [ Lihat Semua (3) >> ]
+      }
+    }
+  }
+}
+
+@enduml

@@ -1,0 +1,63 @@
+@startuml Wireframe_Pengajuan_Pinjaman
+
+title **Wireframe Form Pengajuan Pinjaman** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>PENGAJUAN PINJAMAN BARU
+    ==
+    {
+      {+
+        <b>Step 1: Data Pinjaman
+        --
+        Nominal Pinjaman | Rp | "      10.000.000            "
+        .
+        <i><color:gray>Min: Rp 1.000.000 | Max: Rp 32.450.000</color>
+        --
+        Tenor (Bulan)    | ^12 Bulan^
+        .
+        <i>Pilihan: 6, 12, 18, 24, 36 bulan</i>
+        --
+        Kategori Tujuan  | ^Konsumtif^
+        Deskripsi Tujuan | {SI
+        Untuk renovasi dapur dan kamar mandi
+        .
+        }
+      }
+    }
+    ==
+    {+
+      <b>SIMULASI ANGSURAN (Real-time)
+      --
+      {#
+        . | Bunga Flat | Bunga Efektif
+        Nominal Pinjaman | Rp 10.000.000 | Rp 10.000.000
+        Bunga (1.5%/bln) | Rp 1.800.000 | Rp 975.000
+        Biaya Admin (1%) | Rp 100.000 | Rp 100.000
+        Biaya Asuransi | Rp 50.000 | Rp 50.000
+        --
+        Total Pinjaman | Rp 11.950.000 | Rp 11.125.000
+        <b>Angsuran/Bulan | <b>Rp 995.833 | <b>Rp 927.083
+        --
+        Dana Diterima | Rp 9.850.000 | Rp 9.850.000
+      }
+      .
+      <i><color:blue>* Perhitungan di atas adalah estimasi</color>
+    }
+    ==
+    {+
+      <b>Syarat & Ketentuan
+      --
+      [X] Saya telah membaca dan menyetujui <u>Syarat & Ketentuan Pinjaman</u>
+      [X] Saya menyatakan data yang diisi adalah benar
+      [X] Saya bersedia angsuran dipotong otomatis dari simpanan sukarela
+    }
+    ==
+    { [ <b>AJUKAN PINJAMAN </b>] | [ Simpan Draft ] | [ Batal ] }
+  }
+}
+
+@enduml

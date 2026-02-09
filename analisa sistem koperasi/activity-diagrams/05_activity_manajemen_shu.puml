@@ -1,0 +1,255 @@
+@startuml Activity_Modul_Manajemen_SHU
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Manajemen SHU**\nKSP Sejahtera Abadi
+
+|Admin|
+start
+note right: **PROSES TARIK DATA PARTISIPASI**
+:Akses Menu Manajemen SHU;
+:Pilih Tahun Buku;
+:Tarik Data Historis Satu Tahun;
+
+|Sistem|
+:Query Data Anggota;
+
+fork
+    :Kalkulasi Jasa Modal;
+    :Hitung Saldo Rata-rata Simpanan Pokok;
+    :Hitung Saldo Rata-rata Simpanan Wajib;
+fork again
+    :Kalkulasi Jasa Pinjam;
+    :Hitung Total Bunga Pinjaman Lunas;
+    :Cek Tunggakan;
+    if (Ada Tunggakan?) then (ya)
+        :Kurangi Proporsional;
+    else (tidak)
+        :Tidak Ada Pengurangan;
+    endif
+end fork
+
+:Simpan Data Partisipasi;
+:Generate Rekapitulasi Partisipasi;
+
+|Admin|
+:Review Rekapitulasi Partisipasi;
+stop
+
+@enduml
+:Akses Menu Konfigurasi SHU;
+:Input Laba Bersih Tahun Buku;
+
+:Konfigurasi Distribusi Persentase;
+
+fork
+    :Set Alokasi Cadangan Modal;
+    note right
+      Minimal 10%
+    end note
+fork again
+    :Set Alokasi Jasa Anggota (Modal);
+fork again
+    :Set Alokasi Jasa Anggota (Pinjaman);
+fork again
+    :Set Alokasi Dana Pengurus/Karyawan;
+fork again
+    :Set Alokasi Dana Pendidikan & Sosial;
+fork again
+    :Set Alokasi Dana Pembangunan Daerah;
+end fork
+
+|Sistem|
+:Validasi Total Persentase;
+note right
+  Total harus = 100%
+end note
+
+if (Total Valid?) then (ya)
+    :Simpan Konfigurasi;
+else (tidak)
+    :Tampilkan Error;
+    |Pengurus|
+    :Perbaiki Persentase;
+endif
+
+stop
+
+==Proses Perhitungan SHU Individu==
+
+|Admin|
+start
+:Akses Menu Perhitungan SHU;
+:Pilih Tahun Buku;
+:Jalankan Algoritma Perhitungan;
+
+|Sistem|
+:Load Konfigurasi Alokasi;
+:Load Data Partisipasi Anggota;
+
+repeat
+    :Hitung SHU Jasa Modal per Anggota;
+    note right
+      SHU Modal = (Saldo Rata-rata Anggota /
+      Total Saldo Semua Anggota) x
+      Alokasi Jasa Modal
+    end note
+    
+    :Hitung SHU Jasa Pinjam per Anggota;
+    note right
+      SHU Pinjam = (Kontribusi Bunga Anggota /
+      Total Bunga Semua Anggota) x
+      Alokasi Jasa Pinjam
+    end note
+    
+    :Hitung Total SHU per Anggota;
+repeat while (Masih Ada Data Anggota?)
+
+:Simpan Hasil Perhitungan;
+
+|Admin|
+:Lihat Preview Hasil;
+:Validasi Hasil Perhitungan;
+
+if (Ada Keganjilan?) then (ya)
+    :Identifikasi & Perbaiki Data;
+    :Jalankan Ulang Perhitungan;
+else (tidak)
+    :Lanjut ke Proses Distribusi;
+endif
+
+stop
+
+==Proses Distribusi SHU==
+
+|Admin|
+start
+:Akses Menu Distribusi SHU;
+:Lihat Draft SHU Sebelum Publish;
+
+|Sistem|
+:Tampilkan Daftar SHU Anggota;
+:Tampilkan Ringkasan Total;
+
+|Admin|
+:Review Draft SHU;
+
+if (Ada Keganjilan?) then (ya)
+    :Identifikasi & Laporkan;
+    |Pengurus|
+    :Review Keganjilan;
+    :Approve Koreksi / Lanjut;
+else (tidak)
+    :Lanjut;
+endif
+
+|Pengurus|
+:Review Final Draft SHU;
+if (Approve Publish?) then (ya)
+    :Approve Publish SHU;
+else (tidak)
+    :Kembalikan untuk Revisi;
+    |Admin|
+    :Revisi Data;
+    stop
+endif
+
+|Sistem|
+:Publish SHU;
+
+repeat
+    :Kredit Otomatis ke Simpanan Sukarela;
+    :Catat Transaksi Pembagian SHU;
+repeat while (Masih Ada Anggota?)
+
+:Kirim Notifikasi Broadcast;
+
+fork
+    :Kirim via Push Notification;
+fork again
+    :Kirim via WhatsApp;
+fork again
+    :Kirim via Email;
+end fork
+
+|Anggota|
+:Terima Notifikasi SHU;
+:Lihat Rincian SHU;
+:Cek Saldo di Simpanan Sukarela;
+
+stop
+
+==Proses Download Rincian SHU (Anggota)==
+
+|Anggota|
+start
+:Akses Menu SHU;
+:Pilih Tahun Buku;
+
+|Sistem|
+:Ambil Data SHU Anggota;
+:Tampilkan Rincian SHU;
+
+fork
+    :Tampilkan SHU dari Simpanan;
+fork again
+    :Tampilkan SHU dari Pinjaman;
+fork again
+    :Tampilkan Total SHU;
+end fork
+
+|Anggota|
+if (Download Rincian?) then (ya)
+    |Sistem|
+    :Generate PDF Rincian SHU;
+    :Tambahkan Tanda Tangan Digital;
+    :Download PDF;
+else (tidak)
+    :Selesai;
+endif
+
+stop
+
+==Proses Generate Laporan Pertanggungjawaban==
+
+|Admin|
+start
+:Akses Menu Laporan SHU;
+:Pilih Generate Laporan RAT;
+
+|Sistem|
+:Compile Data SHU Tahun Buku;
+
+fork
+    :Generate Rekapitulasi Total SHU;
+fork again
+    :Generate Rincian per Kategori Alokasi;
+fork again
+    :Generate Daftar SHU per Anggota;
+fork again
+    :Generate Grafik Distribusi;
+end fork
+
+:Finalisasi Dokumen;
+:Format untuk Lampiran RAT;
+
+|Admin|
+:Preview Laporan;
+:Download Laporan;
+
+|Pengurus|
+:Review Laporan;
+:Lampirkan ke Dokumen RAT;
+
+stop
+
+@enduml

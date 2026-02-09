@@ -1,0 +1,68 @@
+@startuml Wireframe_Manajemen_SHU_Anggota
+
+title **Wireframe SHU Anggota** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | SHU | [Logout]}
+  --
+  {
+    <b>SISA HASIL USAHA (SHU) ANGGOTA
+    ==
+    {+
+      <b>SHU Tahun Buku 2025
+      --
+      {
+        {+
+          <b>SHU JASA MODAL
+          (Dari Simpanan)
+          --
+          <b><size:18>Rp 1.250.000</size>
+        }
+        |
+        {+
+          <b>SHU JASA PINJAM
+          (Dari Transaksi)
+          --
+          <b><size:18>Rp 750.000</size>
+        }
+        |
+        {+
+          <b>TOTAL SHU
+          Tahun 2025
+          --
+          <b><size:18>Rp 2.000.000</size>
+        }
+      }
+      ==
+      Status: <color:green><b>SUDAH DIKREDITKAN</b></color> ke Simpanan Sukarela
+      Tanggal Distribusi: 15 Maret 2026
+    }
+    ==
+    {+
+      <b>RINCIAN PERHITUNGAN SHU
+      --
+      {#
+        Komponen | Nilai | Persentase | SHU Anda
+        Saldo Rata-rata Simpanan | Rp 15.500.000 | 0.85% dari total | Rp 1.250.000
+        Kontribusi Bunga Pinjaman | Rp 3.750.000 | 0.62% dari total | Rp 750.000
+        --
+        <b>Total SHU | - | - | <b>Rp 2.000.000
+      }
+      .
+      [ Download Rincian SHU (PDF) ]
+    }
+    ==
+    {+
+      <b>RIWAYAT SHU
+      --
+      {#
+        Tahun Buku | SHU Jasa Modal | SHU Jasa Pinjam | Total | Status
+        2025 | Rp 1.250.000 | Rp 750.000 | Rp 2.000.000 | <color:green>Dikreditkan</color>
+        2024 | Rp 850.000 | Rp 450.000 | Rp 1.300.000 | <color:green>Dikreditkan</color>
+      }
+    }
+  }
+}
+
+@enduml

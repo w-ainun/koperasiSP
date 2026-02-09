@@ -1,0 +1,75 @@
+@startuml Wireframe_Pelepasan_Jaminan
+
+title **Wireframe Pelepasan Jaminan** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Pinjaman | Jaminan | Pengaturan}
+  --
+  {
+    <b>PROSES PELEPASAN JAMINAN
+    ==
+    {+
+      <b>INFORMASI PINJAMAN (LUNAS)
+      --
+      No. Pinjaman    | PJM-2024-00456
+      Nama Anggota    | Ahmad Santoso
+      Tanggal Lunas   | 18 Januari 2026
+      Status          | <color:green><b>LUNAS</b></color>
+    }
+    ==
+    {+
+      <b>INFORMASI JAMINAN
+      --
+      Kategori        | Kendaraan (BPKB)
+      Deskripsi       | Honda Vario 125 (2022)
+      No. BPKB        | H-12345678
+      Lokasi Simpan   | Brankas A - Rak 3 - Amplop 15
+    }
+    ==
+    {+
+      <b>VERIFIKASI PENGAMBIL
+      --
+      Diambil oleh    | (X) Anggota Langsung ( ) Perwakilan
+      --
+      <b>Data Pengambil
+      Nama            | Ahmad Santoso
+      NIK             | 3201234567890123
+      .
+      Foto KTP        | [ Choose File ] | <color:green>✓ ktp_ahmad.jpg</color>
+    }
+    ==
+    {+
+      <b>BERITA ACARA SERAH TERIMA
+      --
+      {SI
+      Yang bertanda tangan di bawah ini:
+      
+      Pihak Pertama (Koperasi):
+      Nama    : _______________________
+      Jabatan : Petugas Jaminan
+      
+      Pihak Kedua (Penerima):
+      Nama    : Ahmad Santoso
+      NIK     : 3201234567890123
+      
+      Menyatakan bahwa jaminan berupa BPKB
+      kendaraan Honda Vario 125 dengan nomor
+      BPKB H-12345678 telah diserahkan dalam
+      kondisi baik dan lengkap.
+      .
+      }
+      .
+      [ Generate Berita Acara (PDF) ]
+    }
+    ==
+    {
+      [ ] Pengambil telah menandatangani berita acara
+      [ ] Jaminan telah diserahkan kepada pengambil
+    }
+    ==
+    { [ <b>KONFIRMASI PELEPASAN </b>] | [ Batal ] }
+  }
+}
+
+@enduml

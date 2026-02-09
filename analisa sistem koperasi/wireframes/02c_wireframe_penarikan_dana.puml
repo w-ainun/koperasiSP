@@ -1,0 +1,58 @@
+@startuml Wireframe_Penarikan_Dana
+
+title **Wireframe Form Penarikan Dana** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>PENARIKAN DANA SIMPANAN SUKARELA
+    ==
+    {+
+      <b>Saldo Tersedia
+      --
+      Simpanan Sukarela: <b><size:18>Rp 15.750.000</size>
+      Saldo Minimum    : <color:red>Rp 50.000</color>
+      --
+      <b>Maksimal Penarikan: Rp 15.700.000
+    }
+    ==
+    {+
+      <b>Nominal Penarikan
+      --
+      Rp | "        1.000.000                      "
+      .
+      {
+        [ Rp 500rb ] | [ Rp 1jt ] | [ Rp 5jt ] | [ Maks ]
+      }
+    }
+    ==
+    {+
+      <b>Rekening Tujuan
+      --
+      Bank            | ^BCA^
+      No. Rekening    | "1234567890                "
+      Nama Pemilik    | "Ahmad Santoso             "
+      .
+      [  ] Simpan sebagai rekening utama
+    }
+    ==
+    {+
+      <b>Ringkasan Penarikan
+      --
+      Nominal Penarikan   | Rp 1.000.000
+      Biaya Transfer      | Rp 6.500
+      --
+      <b>Total Diterima    | <b>Rp 993.500
+      --
+      Saldo Setelah Tarik | Rp 14.750.000
+    }
+    ==
+    <i><color:orange>* Penarikan > Rp 5.000.000 memerlukan approval Pengurus</color>
+    ==
+    { [ <b>AJUKAN PENARIKAN </b>] | [ Batal ] }
+  }
+}
+
+@enduml

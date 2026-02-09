@@ -1,0 +1,70 @@
+@startuml Wireframe_E_Statement
+
+title **Wireframe E-Statement** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>E-STATEMENT / E-PASSBOOK
+    ==
+    {
+      <b>Pilih Periode Statement
+      --
+      Bulan | ^Januari^ | Tahun | ^2026^
+      .
+      [ Generate E-Statement ]
+    }
+    ==
+    {+
+      <b>PREVIEW E-STATEMENT
+      --
+      {
+        {+
+          ========================================
+          <b>KSP SEJAHTERA ABADI
+          Jl. Koperasi No. 1, Jakarta
+          ========================================
+          .
+          <b>E-STATEMENT SIMPANAN
+          Periode: Januari 2026
+          .
+          --
+          Nama Anggota  : Ahmad Santoso
+          No. Anggota   : KSP-2024-00123
+          --
+          .
+          <b>RINGKASAN SALDO
+          --
+          Saldo Awal (01/01)  : Rp 17.325.000
+          Total Mutasi Masuk  : Rp 2.725.000
+          Total Mutasi Keluar : Rp 1.000.000
+          Bunga Diterima      : Rp 125.000
+          PPh (20%)           : Rp 25.000
+          --
+          <b>Saldo Akhir (31/01) : Rp 19.150.000
+          .
+          --
+          <b>RINCIAN TRANSAKSI
+          --
+          01/01 Setoran Sukarela  +2.000.000
+          05/01 Bunga Simpanan    +125.000
+          10/01 Penarikan         -1.000.000
+          15/01 Setoran Wajib     +100.000
+          18/01 Setoran Sukarela  +500.000
+          .
+          --
+          ========================================
+          Dokumen ini sah secara elektronik
+          [QR CODE]
+          ========================================
+        }
+      }
+    }
+    ==
+    { [ <&document> Download PDF ] | [ <&spreadsheet> Download Excel ] | [ <&print> Cetak ] }
+  }
+}
+
+@enduml

@@ -1,0 +1,258 @@
+@startuml Activity_Modul_Pinjaman
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Pinjaman**\nKSP Sejahtera Abadi
+
+|Anggota|
+start
+note right: **PROSES PENGAJUAN PINJAMAN**
+:Akses Menu Pinjaman;
+:Pilih Ajukan Pinjaman;
+:Isi Formulir Pengajuan;
+
+fork
+    :Input Nominal Pinjaman;
+fork again
+    :Pilih Tenor (Bulan);
+fork again
+    :Pilih Kategori Tujuan;
+    note right
+      - Produktif
+      - Konsumtif
+    end note
+end fork
+
+|Sistem|
+:Simulasi Angsuran Real-time;
+
+fork
+    :Hitung Bunga Flat;
+fork again
+    :Hitung Bunga Effective/Annuity;
+end fork
+
+:Tampilkan Rincian Biaya;
+note right
+  - Biaya Admin
+  - Biaya Asuransi
+  - Total Angsuran/Bulan
+  - Dana Bersih Diterima
+end note
+
+|Anggota|
+:Review Simulasi Angsuran;
+:Setujui Syarat & Ketentuan Digital;
+:Submit Pengajuan;
+
+|Sistem|
+:Validasi Kelayakan Otomatis;
+
+fork
+    :Cek Debt-to-Income Ratio;
+    note right
+      DTI harus 30-40%
+    end note
+fork again
+    :Cek Status Pinjaman Aktif;
+fork again
+    :Cek Riwayat Tunggakan;
+    note right
+      NPL > 30 hari
+    end note
+end fork
+
+if (Memenuhi Syarat Otomatis?) then (ya)
+    :Kirim ke Antrean Review Admin;
+else (tidak)
+    :Tolak Otomatis;
+    :Kirim Notifikasi Penolakan;
+    |Anggota|
+    :Terima Notifikasi Penolakan;
+    stop
+endif
+
+|Admin|
+:Review Dashboard Pengajuan;
+:Lihat Skor Kredit Internal;
+:Analisa Kelayakan Manual;
+
+if (Layak Disetujui?) then (ya)
+    if (Sesuai Permintaan?) then (ya)
+        :Approve Pengajuan;
+    else (tidak)
+        :Revisi Pengajuan;
+        note right
+          Tawarkan nominal
+          atau tenor lain
+        end note
+        |Sistem|
+        :Kirim Notifikasi Revisi;
+        |Anggota|
+        if (Terima Revisi?) then (ya)
+            :Konfirmasi Revisi;
+        else (tidak)
+            :Batalkan Pengajuan;
+            stop
+        endif
+        |Admin|
+        :Approve Pengajuan Revisi;
+    endif
+else (tidak)
+    :Tolak Pengajuan;
+    :Input Alasan Penolakan;
+    |Sistem|
+    :Kirim Notifikasi Penolakan;
+    stop
+endif
+
+stop
+
+@enduml
+:Pilih Pinjaman Approved;
+:Proses Pencairan;
+
+|Sistem|
+:Generate Jadwal Angsuran;
+:Terbitkan Tabel Cicilan;
+
+if (Metode Pencairan?) then (Simpanan Sukarela)
+    :Cairkan ke Saldo Simpanan Sukarela;
+    :Update Saldo Anggota;
+else (Rekening Bank)
+    :Cairkan via API Disbursement;
+    :Transfer ke Rekening Anggota;
+endif
+
+:Catat Transaksi Pencairan;
+:Update Status Pinjaman (Aktif);
+:Kirim Notifikasi Pencairan;
+
+|Anggota|
+:Terima Notifikasi Pencairan;
+:Lihat Jadwal Angsuran;
+stop
+
+==Proses Pembayaran Angsuran==
+
+|Anggota|
+start
+:Akses Menu Pembayaran Angsuran;
+:Lihat Tagihan Angsuran;
+
+if (Metode Pembayaran?) then (Auto-Debet)
+    |Sistem|
+    :Cek Saldo Simpanan Sukarela;
+    if (Saldo Cukup?) then (ya)
+        :Potong Saldo Otomatis;
+        :Catat Pembayaran;
+    else (tidak)
+        :Potong Saldo yang Ada;
+        :Hitung Sisa Kekurangan;
+        :Kirim Notifikasi Kekurangan;
+        |Anggota|
+        :Bayar Sisa Kekurangan;
+    endif
+elseif (Virtual Account) then
+    |Sistem|
+    :Generate Virtual Account;
+    |Anggota|
+    :Transfer via Bank;
+    |Sistem|
+    :Terima Konfirmasi Bank;
+    :Catat Pembayaran;
+elseif (QRIS) then
+    |Sistem|
+    :Generate QR Dinamis;
+    note right
+      Include nominal + denda
+    end note
+    |Anggota|
+    :Scan & Bayar QRIS;
+    |Sistem|
+    :Terima Konfirmasi Pembayaran;
+    :Catat Pembayaran;
+else (Setoran Tunai)
+    |Anggota|
+    :Bayar Tunai di Kantor;
+    |Teller|
+    :Terima Pembayaran Tunai;
+    :Input Pembayaran ke Sistem;
+    |Sistem|
+    :Catat Pembayaran;
+    |Teller|
+    :Cetak Struk Fisik;
+endif
+
+|Sistem|
+:Update Riwayat Transaksi;
+:Update Status Angsuran;
+:Kirim Notifikasi Pembayaran;
+
+|Anggota|
+:Terima Konfirmasi Pembayaran;
+stop
+
+==Proses Penagihan==
+
+|Sistem|
+start
+:Scheduler Penagihan Harian;
+:Cek Jatuh Tempo Angsuran;
+
+if (Status Pembayaran?) then (H-3 atau H-1)
+    :Kirim Reminder Jatuh Tempo;
+elseif (H+1 Belum Bayar) then
+    :Kirim Notifikasi Keterlambatan;
+    :Hitung Denda Otomatis;
+    :Update Tagihan + Denda;
+elseif (H+7 Belum Bayar) then
+    :Generate Surat Teguran SP1;
+    :Kirim SP1 ke Anggota;
+else (Belum Jatuh Tempo)
+    :Tidak Ada Aksi;
+endif
+
+stop
+
+==Proses Pelunasan Dipercepat==
+
+|Anggota|
+start
+:Akses Menu Pelunasan;
+:Pilih Pelunasan Dipercepat;
+
+|Sistem|
+:Hitung Total Sisa Pokok;
+:Hitung Diskon Bunga;
+note right
+  Diskon bunga untuk
+  pelunasan lebih awal
+end note
+:Tampilkan Total Pelunasan;
+
+|Anggota|
+if (Konfirmasi Pelunasan?) then (ya)
+    :Pilih Metode Pembayaran;
+    :Bayar Total Pelunasan;
+    |Sistem|
+    :Proses Pembayaran;
+    :Update Status Pinjaman (Lunas);
+    :Update Skor Kredit;
+    :Kirim Notifikasi Pelunasan;
+else (tidak)
+    :Batalkan;
+endif
+
+stop
+
+@enduml

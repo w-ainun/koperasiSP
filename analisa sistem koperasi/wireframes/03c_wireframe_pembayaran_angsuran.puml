@@ -1,0 +1,57 @@
+@startuml Wireframe_Pembayaran_Angsuran
+
+title **Wireframe Pembayaran Angsuran** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>PEMBAYARAN ANGSURAN
+    ==
+    {+
+      <b>Detail Tagihan
+      --
+      No. Pinjaman    | PJM-2024-00456
+      Angsuran Ke     | 12 dari 24
+      Jatuh Tempo     | <color:red><b>25 Januari 2026</b></color>
+      --
+      Pokok           | Rp 1.041.667
+      Bunga           | Rp 208.333
+      Denda           | Rp 0
+      --
+      <b>Total Tagihan | <b><size:18>Rp 1.250.000</size>
+    }
+    ==
+    {+
+      <b>Pilih Metode Pembayaran
+      --
+      {
+        (X) <b>Auto-Debet Simpanan Sukarela</b>
+            Saldo: Rp 15.750.000 (Cukup)
+        ( ) <b>Virtual Account</b>
+            BCA, BNI, BRI, Mandiri
+        ( ) <b>QRIS</b>
+            Scan QR dari aplikasi manapun
+        ( ) <b>Setoran Tunai di Kantor</b>
+            Bayar langsung ke Teller
+      }
+    }
+    ==
+    {+
+      <b>Ringkasan Pembayaran
+      --
+      Tagihan Angsuran    | Rp 1.250.000
+      Biaya Admin         | Rp 0
+      --
+      Saldo Simpanan      | Rp 15.750.000
+      Setelah Pembayaran  | Rp 14.500.000
+      --
+      <b>Total Bayar       | <b>Rp 1.250.000
+    }
+    ==
+    { [ <b>BAYAR SEKARANG </b>] | [ Batal ] }
+  }
+}
+
+@enduml

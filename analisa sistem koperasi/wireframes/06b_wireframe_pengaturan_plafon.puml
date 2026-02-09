@@ -1,0 +1,62 @@
+@startuml Wireframe_Pengaturan_Plafon
+
+title **Wireframe Pengaturan Plafon Pinjaman** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Simpanan | Pinjaman | Laporan | Pengaturan}
+  --
+  {
+    <b>PENGATURAN PLAFON PINJAMAN
+    ==
+    { [<&dollar> Keuangan] | [<&calendar> Tenor] | [<&bar-chart> Plafon] | [<&credit-card> Simpanan] | [<&cog> Sistem] | [<&list> Log] }
+    ==
+    {+
+      <b>PLAFON BERDASARKAN STATUS ANGGOTA
+      --
+      {#
+        Status Anggota | Masa Keanggotaan | Plafon Maksimal | Aksi
+        Anggota Baru | < 6 bulan | Rp "   5.000.000  " | [ Edit ]
+        Anggota Regular | 6 - 24 bulan | Rp "  25.000.000  " | [ Edit ]
+        Anggota Senior | > 24 bulan | Rp "  50.000.000  " | [ Edit ]
+        Anggota Premium | > 60 bulan | Rp " 100.000.000  " | [ Edit ]
+      }
+    }
+    ==
+    {+
+      <b>PLAFON BERDASARKAN KELIPATAN SIMPANAN
+      --
+      Rasio Maksimal | "  3  " x Total Simpanan
+      .
+      <i>Contoh: Jika simpanan Rp 10.000.000, maka plafon = Rp 30.000.000</i>
+    }
+    ==
+    {+
+      <b>PLAFON ABSOLUT (BATAS MAKSIMAL)
+      --
+      Batas Maksimal Pinjaman | Rp " 100.000.000  "
+      .
+      <i>Tidak ada anggota yang bisa pinjam melebihi nilai ini</i>
+    }
+    ==
+    {+
+      <b>OPSI TENOR PINJAMAN
+      --
+      {#
+        Tenor (Bulan) | Status | Aksi
+        6 | <color:green>Aktif</color> | [ Nonaktifkan ]
+        12 | <color:green>Aktif</color> | [ Nonaktifkan ]
+        18 | <color:green>Aktif</color> | [ Nonaktifkan ]
+        24 | <color:green>Aktif</color> | [ Nonaktifkan ]
+        36 | <color:green>Aktif</color> | [ Nonaktifkan ]
+        48 | <color:gray>Nonaktif</color> | [ Aktifkan ]
+      }
+      .
+      [ + Tambah Tenor Baru ]
+    }
+    ==
+    { [ <b>Simpan Semua Perubahan </b>] | [ Reset ] }
+  }
+}
+
+@enduml

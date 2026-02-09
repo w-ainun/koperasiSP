@@ -1,0 +1,217 @@
+@startuml Activity_Modul_Keanggotaan
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Keanggotaan**\nKSP Sejahtera Abadi
+
+|Anggota/Calon Anggota|
+start
+note right: **PROSES REGISTRASI ANGGOTA BARU**
+:Akses Halaman Registrasi;
+:Isi Formulir Pendaftaran;
+note right
+  - Nama Lengkap
+  - NIK
+  - Email
+  - No. HP
+  - Alamat
+end note
+
+:Upload Dokumen Pendukung;
+note right
+  - KTP
+  - Foto Selfie dengan KTP
+  - Dokumen Pendukung Lainnya
+end note
+
+|Sistem|
+:Validasi Data Otomatis;
+note right
+  Validasi:
+  - NIK (format & duplikasi)
+  - Email (format & unik)
+  - No HP (format & unik)
+end note
+
+if (Data Valid?) then (ya)
+    :Simpan Data Pendaftaran;
+    :Kirim Notifikasi ke Admin;
+else (tidak)
+    |Anggota/Calon Anggota|
+    :Tampilkan Pesan Error;
+    :Perbaiki Data yang Salah;
+    |Sistem|
+    :Validasi Data Otomatis;
+endif
+
+|Admin Back-Office|
+:Terima Notifikasi Pendaftaran Baru;
+:Review Data Pendaftaran;
+:Verifikasi Dokumen;
+
+if (Dokumen Lengkap & Valid?) then (ya)
+    if (Data Memenuhi Syarat?) then (ya)
+        :Approve Pendaftaran;
+        |Sistem|
+        :Generate Nomor Anggota;
+        :Aktivasi Akun;
+        :Kirim Email Aktivasi & Password;
+        |Anggota/Calon Anggota|
+        :Terima Email Aktivasi;
+        :Login Pertama Kali;
+        :Ganti Password Default;
+    else (tidak)
+        |Admin Back-Office|
+        :Reject Pendaftaran;
+        :Input Alasan Penolakan;
+        |Sistem|
+        :Kirim Notifikasi Penolakan;
+        |Anggota/Calon Anggota|
+        :Terima Notifikasi Penolakan;
+    endif
+else (tidak)
+    |Admin Back-Office|
+    :Minta Kelengkapan Dokumen;
+    |Sistem|
+    :Kirim Notifikasi Kelengkapan;
+    |Anggota/Calon Anggota|
+    :Upload Dokumen Tambahan;
+endif
+
+stop
+
+@enduml
+:Pilih Edit Data Profil;
+
+if (Data Vital?) then (ya)
+    note right
+      Data Vital:
+      - Nama
+      - NIK
+      - Tanggal Lahir
+    end note
+    :Ajukan Perubahan Data Vital;
+    :Upload Dokumen Pendukung;
+    |Admin Back-Office|
+    :Verifikasi Perubahan Data;
+    if (Dokumen Valid?) then (ya)
+        :Approve Perubahan;
+        |Sistem|
+        :Update Data Profil;
+        :Catat Log Perubahan;
+    else (tidak)
+        :Reject Perubahan;
+        |Sistem|
+        :Kirim Notifikasi Penolakan;
+    endif
+else (tidak)
+    |Anggota/Calon Anggota|
+    :Edit Data Non-Vital;
+    note right
+      Data Non-Vital:
+      - Alamat
+      - No HP
+      - Email
+    end note
+    |Sistem|
+    :Validasi Format Data;
+    :Update Data Profil;
+    :Catat Log Perubahan;
+endif
+
+|Anggota/Calon Anggota|
+:Lihat Konfirmasi Perubahan;
+stop
+
+==Proses Keamanan Akun==
+
+|Anggota/Calon Anggota|
+start
+:Akses Menu Keamanan;
+
+fork
+    :Ganti Password;
+    :Input Password Lama;
+    :Input Password Baru;
+    :Konfirmasi Password Baru;
+    |Sistem|
+    :Validasi Password;
+    :Update Password;
+    :Kirim Notifikasi Perubahan;
+fork again
+    |Anggota/Calon Anggota|
+    :Aktivasi 2FA;
+    :Pilih Metode 2FA;
+    note right
+      - SMS OTP
+      - WhatsApp OTP
+      - Email OTP
+      - Authenticator App
+    end note
+    |Sistem|
+    :Generate Secret Key;
+    :Kirim Kode Verifikasi;
+    |Anggota/Calon Anggota|
+    :Input Kode Verifikasi;
+    |Sistem|
+    :Aktivasi 2FA;
+fork again
+    |Anggota/Calon Anggota|
+    :Lihat Log Aktivitas;
+    |Sistem|
+    :Tampilkan Riwayat Login;
+    :Tampilkan Riwayat Perubahan;
+end fork
+
+stop
+
+==Proses Kelola Status Keanggotaan==
+
+|Pengurus Koperasi|
+start
+:Akses Menu Kelola Status;
+:Pilih Anggota;
+
+if (Jenis Perubahan?) then (Ubah Status)
+    :Pilih Status Baru;
+    note right
+      Status:
+      - Aktif
+      - Non-Aktif
+      - Suspend
+    end note
+    :Input Alasan Perubahan;
+    |Sistem|
+    :Update Status Anggota;
+    :Catat Log Perubahan;
+    :Kirim Notifikasi ke Anggota;
+else (Proses Resign)
+    |Pengurus Koperasi|
+    :Review Data Anggota;
+    :Cek Kewajiban Terbuka;
+    if (Ada Kewajiban?) then (ya)
+        :Proses Pelunasan Kewajiban;
+    else (tidak)
+        :Lanjut Proses Resign;
+    endif
+    :Hitung Pengembalian Simpanan;
+    :Approve Resign;
+    |Sistem|
+    :Update Status Resign;
+    :Proses Pengembalian Dana;
+    :Arsipkan Data Anggota;
+    :Kirim Notifikasi Final;
+endif
+
+stop
+
+@enduml

@@ -1,0 +1,60 @@
+@startuml Wireframe_Keamanan_Akun
+
+title **Wireframe Keamanan Akun** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Profil | [Logout]}
+  --
+  {
+    { [<&person> Profil] | [<&lock-locked> Keamanan] | [<&bell> Notifikasi] | [<&document> Dokumen] }
+    ==
+    {+
+      <b>KEAMANAN AKUN
+      --
+      {
+        {+
+          <b>Ganti Password
+          --
+          Password Lama     | "************************"
+          Password Baru     | "                        "
+          Konfirmasi        | "                        "
+          .
+          <i><color:gray>Min. 8 karakter, huruf besar, angka, simbol</color>
+          .
+          [ Simpan Password ]
+        }
+        --
+        {+
+          <b>Autentikasi 2 Faktor (2FA)
+          --
+          Status: <color:red><b>TIDAK AKTIF</b></color>
+          .
+          Pilih Metode 2FA:
+          ( ) SMS OTP
+          (X) WhatsApp OTP
+          ( ) Email OTP
+          ( ) Google Authenticator
+          .
+          [ Aktifkan 2FA ]
+        }
+        --
+        {+
+          <b>Riwayat Login
+          --
+          {#
+            Tanggal & Waktu | Perangkat | Lokasi | Status
+            18/01/2026 10:30 | Chrome - Windows | Jakarta | <color:green>Sukses</color>
+            17/01/2026 14:22 | Mobile App - Android | Jakarta | <color:green>Sukses</color>
+            16/01/2026 09:15 | Chrome - Windows | Bandung | <color:red>Gagal</color>
+            15/01/2026 08:00 | Mobile App - Android | Jakarta | <color:green>Sukses</color>
+          }
+          .
+          [ Lihat Semua Riwayat ]
+        }
+      }
+    }
+  }
+}
+
+@enduml

@@ -1,0 +1,83 @@
+@startuml Wireframe_Detail_Tiket_Admin
+
+title **Wireframe Detail Tiket (Admin)** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Transaksi | Helpdesk | Pengaturan}
+  --
+  {
+    [ << Kembali ke Daftar Tiket ]
+    ==
+    <b>DETAIL TIKET: TKT-2026-00128
+    ==
+    {
+      {+
+        <b>INFORMASI TIKET
+        --
+        No. Tiket     | TKT-2026-00128
+        Status        | ^Sedang Diproses^
+        Prioritas     | ^Tinggi^
+        Kategori      | Simpanan
+        Dibuat        | 18/01/2026 10:30
+        Diperbarui    | 18/01/2026 10:45
+        --
+        <b>ANGGOTA
+        --
+        Nama          | Ahmad Santoso
+        No. Anggota   | KSP-2024-00123
+        Email         | ahmad.s@email.com
+        HP            | 081234567890
+      }
+      |
+      {+
+        <b>SUBJEK
+        Gagal transfer penarikan ke rekening BCA
+        ==
+        <b>DESKRIPSI MASALAH
+        --
+        {SI
+        Saya sudah melakukan penarikan dana
+        simpanan sukarela sebesar Rp 1.000.000
+        pada tanggal 17/01/2026.
+        
+        Status di aplikasi sudah "Berhasil"
+        tapi sampai sekarang dana belum masuk
+        ke rekening BCA saya.
+        
+        No. Transaksi: TRX-20260117-002
+        .
+        }
+        ==
+        <b>LAMPIRAN
+        [bukti_transfer.jpg] [screenshot_app.png]
+      }
+    }
+    ==
+    {+
+      <b>INTERNAL NOTES (Tidak terlihat anggota)
+      --
+      {SI
+      [10:45] Admin01: Sudah cek ke sistem, status transfer pending di bank.
+      Akan follow up ke tim finance.
+      .
+      }
+      .
+      "Tambah catatan internal...                                        " | [ Tambah ]
+    }
+    ==
+    {+
+      <b>KIRIM BALASAN KE ANGGOTA
+      --
+      {SI
+      Ketik balasan untuk anggota...
+      .
+      .
+      }
+      .
+      { [ <b>Kirim & Tetap Proses</b> ] | [ <b>Kirim & Selesaikan</b> ] | [ Eskalasi ke Pengurus ] }
+    }
+  }
+}
+
+@enduml

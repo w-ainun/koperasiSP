@@ -1,0 +1,44 @@
+@startuml Wireframe_Login
+
+title **Wireframe Halaman Login** - KSP Sejahtera Abadi
+
+salt
+{+
+  {
+    .
+    .
+    .
+    {+
+      {
+        .
+        <b><size:24>KSP SEJAHTERA ABADI</size>
+        <i>Koperasi Simpan Pinjam</i>
+        .
+      }
+      ==
+      <b>LOGIN ANGGOTA
+      --
+      {
+        Email / No. Anggota
+        "                                        "
+        .
+        Password
+        "************************                "
+        .
+        [X] Ingat Saya
+        .
+        [ <b>        MASUK        </b> ]
+        .
+        <u>Lupa Password?</u>
+        --
+        Belum punya akun?
+        [ Daftar Sekarang ]
+      }
+    }
+    .
+    .
+    .
+  }
+}
+
+@enduml

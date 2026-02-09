@@ -1,0 +1,56 @@
+@startuml Wireframe_Profil_Anggota
+
+title **Wireframe Profil Anggota** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Profil | [Logout]}
+  --
+  {
+    { [<&person> Profil] | [<&lock-locked> Keamanan] | [<&bell> Notifikasi] | [<&document> Dokumen] }
+    ==
+    {+
+      <b>PROFIL ANGGOTA
+      --
+      {
+        {
+          [     FOTO     ]
+          [     PROFIL   ]
+          .
+          [ Ubah Foto ]
+        } | {
+          <b>Ahmad Santoso
+          --
+          No. Anggota: <b>KSP-2024-00123
+          Status: <color:green><b>AKTIF</b></color>
+          Bergabung: 15 Januari 2024
+        }
+      }
+      ==
+      {
+        <b>Data Pribadi                              | [ <&pencil> Edit ]
+        --
+        NIK             | 3201234567890123
+        Nama Lengkap    | Ahmad Santoso
+        Tempat, Tgl Lahir | Jakarta, 15 Mei 1990
+        Jenis Kelamin   | Laki-laki
+        Alamat          | Jl. Merdeka No. 123, RT 01/RW 02
+        .               | Kel. Sukamaju, Kec. Cilandak
+        .               | Jakarta Selatan, DKI Jakarta 12345
+        --
+        <b>Data Kontak
+        --
+        No. Handphone   | 081234567890
+        Email           | ahmad.santoso@email.com
+        --
+        <b>Data Pekerjaan
+        --
+        Pekerjaan       | Karyawan Swasta
+        Nama Perusahaan | PT. ABC Indonesia
+        Penghasilan     | Rp 5.000.000 - Rp 10.000.000
+      }
+    }
+  }
+}
+
+@enduml

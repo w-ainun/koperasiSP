@@ -1,0 +1,95 @@
+@startuml Activity_Modul_Simpanan
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Simpanan**\nKSP Sejahtera Abadi
+
+|Anggota|
+start
+note right: **PROSES SETORAN SIMPANAN**
+:Akses Menu Simpanan;
+:Pilih Setoran Simpanan;
+:Pilih Jenis Simpanan;
+note right
+  Jenis Simpanan:
+  - Simpanan Pokok
+  - Simpanan Wajib
+  - Simpanan Sukarela
+end note
+
+:Input Nominal Setoran;
+
+|Sistem|
+:Validasi Nominal;
+:Generate Invoice/Virtual Account;
+
+|Anggota|
+:Pilih Metode Pembayaran;
+
+if (Metode Pembayaran?) then (Payment Gateway)
+    :Bayar via Payment Gateway;
+    |Sistem|
+    :Proses Pembayaran Real-time;
+    :Terima Callback dari Gateway;
+    :Update Saldo Otomatis;
+    :Kirim Notifikasi Sukses;
+elseif (E-Wallet) then
+    |Anggota|
+    :Bayar via E-Wallet;
+    note right
+      - OVO
+      - Dana
+      - QRIS
+    end note
+    |Sistem|
+    :Proses Pembayaran Real-time;
+    :Update Saldo Otomatis;
+    :Kirim Notifikasi Sukses;
+elseif (Virtual Account) then
+    |Anggota|
+    :Transfer ke Virtual Account Bank;
+    |Sistem|
+    :Terima Konfirmasi dari Bank;
+    :Update Saldo Otomatis;
+    :Kirim Notifikasi Sukses;
+else (Transfer Manual)
+    |Anggota|
+    :Transfer ke Rekening Koperasi;
+    :Upload Bukti Transfer;
+    |Sistem|
+    :Simpan Bukti Transfer;
+    :Masukkan ke Antrean Verifikasi;
+    
+    |Admin|
+    :Lihat Antrean Verifikasi;
+    :Review Bukti Transfer;
+    
+    if (Bukti Valid?) then (ya)
+        :Konfirmasi Setoran;
+        |Sistem|
+        :Tambah Saldo Anggota;
+        :Catat Transaksi;
+        :Kirim Notifikasi Sukses;
+    else (tidak)
+        :Tolak Setoran;
+        :Input Alasan Penolakan;
+        |Sistem|
+        :Kirim Notifikasi Penolakan;
+    endif
+endif
+
+|Anggota|
+:Lihat Konfirmasi Setoran;
+:Cek Saldo Terbaru;
+stop
+
+@enduml

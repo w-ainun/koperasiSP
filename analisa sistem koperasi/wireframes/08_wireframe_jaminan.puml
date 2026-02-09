@@ -1,0 +1,72 @@
+@startuml Wireframe_Jaminan_Anggota
+
+title **Wireframe Jaminan Barang (Anggota)** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Jaminan | [Logout]}
+  --
+  {
+    <b>JAMINAN BARANG SAYA
+    ==
+    {+
+      <b>DAFTAR JAMINAN AKTIF
+      --
+      {#
+        No. | Kategori | Deskripsi | No. Dokumen | Nilai Taksiran | Pinjaman Terkait | Status
+        1 | Kendaraan | Honda Vario 125 (2022) | BPKB: H-12345678 | Rp 12.000.000 | PJM-2024-00456 | <color:orange>Disimpan</color>
+        2 | Properti | SHM Tanah 150m2 | SHM: 1234/Sukamaju | Rp 150.000.000 | PJM-2023-00123 | <color:green>Dilepas</color>
+      }
+    }
+    ==
+    {+
+      <b>DETAIL JAMINAN
+      --
+      {
+        {+
+          <b>INFORMASI JAMINAN
+          --
+          Kategori        | Kendaraan (BPKB)
+          Merk/Tipe       | Honda Vario 125
+          Tahun           | 2022
+          No. Rangka      | MH1JFZ11XNK123456
+          No. Mesin       | JFZ1E-1234567
+          Warna           | Merah
+          --
+          No. BPKB        | H-12345678
+          Nama di BPKB    | Ahmad Santoso
+          --
+          Nilai Pasar     | Rp 15.000.000
+          Nilai Likuiditas| Rp 12.000.000
+        }
+        |
+        {+
+          <b>FOTO JAMINAN
+          --
+          {
+            [  Tampak  ]  [  Tampak  ]
+            [  Depan   ]  [  Samping ]
+            .
+            [  No.     ]  [  BPKB    ]
+            [  Rangka  ]  [  Asli    ]
+          }
+          ==
+          <b>STATUS PENYIMPANAN
+          --
+          Status  | <color:orange><b>Disimpan di Brankas</b></color>
+          Lokasi  | Brankas A - Rak 3 - Amplop 15
+          Tgl Serah | 25 Juli 2024
+          Petugas | Budi Penyimpan
+        }
+      }
+      ==
+      <b>PINJAMAN TERKAIT
+      --
+      No. Pinjaman: PJM-2024-00456 | Nominal: Rp 25.000.000 | Status: <color:blue>Aktif</color>
+      --
+      <i><color:gray>* Jaminan akan dilepas setelah pinjaman lunas</color>
+    }
+  }
+}
+
+@enduml

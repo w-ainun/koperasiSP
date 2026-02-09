@@ -1,0 +1,69 @@
+@startuml Wireframe_Pinjaman
+
+title **Wireframe Dashboard Pinjaman** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>DASHBOARD PINJAMAN
+    ==
+    {
+      {+
+        <b>PINJAMAN AKTIF
+        --
+        <b><size:18>Rp 25.000.000</size>
+        Sisa Pokok: Rp 18.500.000
+        <i>12 dari 24 bulan
+      }
+      |
+      {+
+        <b>ANGSURAN BULAN INI
+        --
+        <b><size:18>Rp 1.250.000</size>
+        Jatuh Tempo: <color:red>25 Jan 2026</color>
+        <i>7 hari lagi
+      }
+      |
+      {+
+        <b>PLAFON TERSEDIA
+        --
+        <b><size:18>Rp 32.450.000</size>
+        <i>3x Total Simpanan
+      }
+    }
+    ==
+    { [ <&plus> Ajukan Pinjaman ] | [ <&credit-card> Bayar Angsuran ] | [ <&calculator> Simulasi ] }
+    ==
+    {+
+      <b>DETAIL PINJAMAN AKTIF
+      --
+      {#
+        No. Pinjaman | PJM-2024-00456
+        Tanggal Cair | 25 Juli 2024
+        Nominal | Rp 25.000.000
+        Tenor | 24 Bulan
+        Bunga | 1.5% / bulan (Flat)
+        Angsuran | Rp 1.250.000 / bulan
+        Tujuan | Konsumtif - Renovasi Rumah
+      }
+      .
+      [ Lihat Jadwal Angsuran ] | [ Pelunasan Dipercepat ]
+    }
+    ==
+    {+
+      <b>RIWAYAT PEMBAYARAN
+      --
+      {#
+        Angsuran Ke | Jatuh Tempo | Tanggal Bayar | Nominal | Status
+        12 | 25/01/2026 | - | Rp 1.250.000 | <color:orange>Belum Bayar</color>
+        11 | 25/12/2025 | 24/12/2025 | Rp 1.250.000 | <color:green>Lunas</color>
+        10 | 25/11/2025 | 25/11/2025 | Rp 1.250.000 | <color:green>Lunas</color>
+        9 | 25/10/2025 | 23/10/2025 | Rp 1.250.000 | <color:green>Lunas</color>
+      }
+    }
+  }
+}
+
+@enduml

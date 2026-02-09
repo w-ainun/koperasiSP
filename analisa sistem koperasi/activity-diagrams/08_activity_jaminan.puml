@@ -1,0 +1,301 @@
+@startuml Activity_Modul_Jaminan_Barang
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Jaminan Barang**\nKSP Sejahtera Abadi
+
+|Analis Kredit|
+start
+note right: **PROSES INPUT DATA JAMINAN BARU**
+:Akses Menu Jaminan;
+:Pilih Input Jaminan Baru;
+:Pilih Pinjaman Terkait;
+
+:Pilih Kategori Agunan;
+if (Kategori?) then (Kendaraan)
+    :Input Data BPKB;
+    note right
+      - Nomor BPKB
+      - Nomor Rangka
+      - Nomor Mesin
+      - Tahun Pembuatan
+      - Merk & Tipe
+    end note
+elseif (Properti) then
+    :Input Data Sertifikat;
+    note right
+      - Nomor SHM/HGB
+      - Luas Tanah
+      - Luas Bangunan
+      - Alamat Lokasi
+    end note
+elseif (Logam Mulia) then
+    :Input Data Emas;
+    note right
+      - Berat (gram)
+      - Kadar
+      - Nomor Sertifikat
+    end note
+else (Elektronik)
+    :Input Data Elektronik;
+    note right
+      - Jenis Barang
+      - Merk & Tipe
+      - Nomor Seri
+    end note
+endif
+
+:Input Legalitas Dokumen;
+fork
+    :Input Nomor Dokumen;
+fork again
+    :Input Nama Pemilik Tertera;
+fork again
+    :Input Tanggal Kadaluarsa;
+end fork
+
+|Sistem|
+:Validasi Kepemilikan dengan Data Anggota;
+
+if (Nama Sesuai?) then (ya)
+    :Lanjut Proses;
+else (tidak)
+    :Tampilkan Warning;
+    |Analis Kredit|
+    :Upload Surat Kuasa/Dokumen Pendukung;
+endif
+
+|Analis Kredit|
+:Input Nilai Taksiran;
+fork
+    :Input Nilai Pasar Saat Ini;
+fork again
+    :Input Nilai Likuiditas;
+end fork
+
+|Sistem|
+:Hitung Rasio LTV;
+note right
+  Loan to Value Ratio
+end note
+:Simpan Data Jaminan;
+
+stop
+
+@enduml
+:Akses Menu Digitalisasi;
+:Pilih Jaminan;
+
+:Upload Multi-Foto Aset;
+fork
+    :Upload Foto Tampak Depan;
+fork again
+    :Upload Foto Tampak Samping;
+fork again
+    :Upload Foto Nomor Rangka/Mesin;
+    note right
+      Khusus Kendaraan
+    end note
+end fork
+
+:Upload Scan Dokumen Asli;
+note right
+  Format: PDF/JPG
+end note
+
+|Sistem|
+:Validasi Format File;
+:Kompres Gambar;
+:Tambahkan Watermark Otomatis;
+:Simpan ke Storage;
+:Update Status Digitalisasi;
+
+stop
+
+==Proses Serah Terima Jaminan Fisik==
+
+|Anggota|
+start
+:Datang ke Kantor;
+:Serahkan Jaminan Fisik;
+
+|Petugas Jaminan|
+:Verifikasi Identitas Anggota;
+:Periksa Keaslian Dokumen;
+:Cocokkan dengan Data Sistem;
+
+if (Dokumen Valid?) then (ya)
+    :Terima Jaminan;
+    :Catat Log Penyerahan;
+    fork
+        :Catat Waktu Penyerahan;
+    fork again
+        :Catat Petugas Penerima;
+    fork again
+        :Foto Dokumentasi;
+    end fork
+    
+    :Tentukan Lokasi Penyimpanan;
+    :Input Nomor Rak;
+    :Input Nomor Amplop;
+    
+    |Sistem|
+    :Update Lokasi Penyimpanan;
+    :Update Status Jaminan (Stored);
+    :Kirim Notifikasi ke Anggota;
+    
+    |Petugas Jaminan|
+    :Berikan Tanda Terima ke Anggota;
+else (tidak)
+    :Tolak Penyerahan;
+    :Jelaskan Alasan Penolakan;
+endif
+
+stop
+
+==Proses Kontrol Inventaris==
+
+|Petugas Jaminan|
+start
+:Akses Menu Kontrol Inventaris;
+:Pilih Generate Laporan;
+
+|Sistem|
+:Query Semua Jaminan Tersimpan;
+:Bandingkan dengan Data Pinjaman Aktif;
+
+if (Ada Ketidaksesuaian?) then (ya)
+    :Identifikasi Ketidaksesuaian;
+    :Generate Laporan Anomali;
+    note right
+      - Jaminan tanpa pinjaman aktif
+      - Pinjaman tanpa jaminan
+      - Data tidak cocok
+    end note
+    |Petugas Jaminan|
+    :Review Laporan Anomali;
+    :Investigasi Ketidaksesuaian;
+    :Update/Koreksi Data;
+else (tidak)
+    :Generate Laporan Normal;
+endif
+
+|Sistem|
+:Generate Laporan Jaminan Tersimpan;
+
+|Petugas Jaminan|
+:Review Laporan;
+:Download Laporan;
+
+stop
+
+==Proses Pelepasan Jaminan==
+
+|Sistem|
+start
+:Deteksi Pelunasan Pinjaman;
+:Kirim Notifikasi ke Anggota;
+
+|Anggota|
+:Terima Notifikasi Pelunasan;
+:Ajukan Pengambilan Jaminan;
+
+if (Pengambilan Sendiri?) then (ya)
+    :Datang ke Kantor;
+else (Diwakilkan)
+    :Buat Surat Kuasa;
+    :Wakil Datang ke Kantor;
+endif
+
+|Petugas Jaminan|
+:Verifikasi Identitas Pengambil;
+
+if (Pengambil?) then (Anggota Langsung)
+    :Cek Identitas Asli;
+    :Cocokkan dengan Data Sistem;
+else (Wakil)
+    :Verifikasi Surat Kuasa;
+    :Cek Identitas Pemberi Kuasa;
+    :Cek Identitas Penerima Kuasa;
+    :Catat Identitas Penerima;
+endif
+
+if (Verifikasi OK?) then (ya)
+    :Ambil Jaminan dari Brankas;
+    :Periksa Kelengkapan Dokumen;
+    
+    |Sistem|
+    :Generate Berita Acara Serah Terima;
+    
+    |Petugas Jaminan|
+    :Minta Tanda Tangan Pengambil;
+    
+    |Sistem|
+    :Tanda Tangan Digital Berita Acara;
+    :Scan Berita Acara ke Sistem;
+    
+    |Petugas Jaminan|
+    :Serahkan Jaminan ke Pengambil;
+    
+    |Sistem|
+    :Update Status Jaminan (Released);
+    :Hapus dari Inventaris Aktif;
+    :Kirim Notifikasi Konfirmasi;
+    
+    |Anggota|
+    :Terima Jaminan;
+    :Terima Copy Berita Acara;
+else (tidak)
+    |Petugas Jaminan|
+    :Tolak Pengambilan;
+    :Jelaskan Alasan;
+endif
+
+stop
+
+==Proses Lihat Status Jaminan (Anggota)==
+
+|Anggota|
+start
+:Akses Menu Jaminan;
+:Lihat Status Jaminan;
+
+|Sistem|
+:Ambil Data Jaminan Anggota;
+:Tampilkan Daftar Jaminan;
+
+|Anggota|
+:Pilih Jaminan;
+
+|Sistem|
+:Tampilkan Detail Jaminan;
+note right
+  - Kategori
+  - Nomor Dokumen
+  - Nilai Taksiran
+  - Status Penyimpanan
+  - Lokasi (untuk internal)
+  - Pinjaman Terkait
+end note
+
+|Anggota|
+if (Download Dokumen?) then (ya)
+    |Sistem|
+    :Generate Salinan Digital;
+    :Download Dokumen;
+else (tidak)
+    :Selesai;
+endif
+
+stop
+
+@enduml

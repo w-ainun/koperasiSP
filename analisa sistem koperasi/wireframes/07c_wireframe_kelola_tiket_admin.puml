@@ -1,0 +1,51 @@
+@startuml Wireframe_Kelola_Tiket_Admin
+
+title **Wireframe Kelola Tiket Bantuan (Admin)** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Transaksi | Helpdesk | Pengaturan}
+  --
+  {
+    <b>HELPDESK - KELOLA TIKET BANTUAN
+    ==
+    {
+      {
+        Tiket Baru: <b><color:red>5</color></b>
+      }
+      |
+      {
+        Sedang Diproses: <b><color:orange>12</color></b>
+      }
+      |
+      {
+        Selesai Hari Ini: <b><color:green>8</color></b>
+      }
+      |
+      {
+        Rata-rata Respon: <b>2.5 jam</b>
+      }
+    }
+    ==
+    {
+      Status | ^Semua Status^ | Kategori | ^Semua Kategori^ | Prioritas | ^Semua^ | [ Filter ]
+    }
+    ==
+    {+
+      <b>DAFTAR TIKET
+      --
+      {#
+        No. Tiket | Anggota | Kategori | Subjek | Prioritas | Status | Waktu | Aksi
+        TKT-2026-00128 | Ahmad S. | Simpanan | Gagal transfer | <color:red>Tinggi</color> | <color:blue>Baru</color> | 10 mnt | [ Proses ]
+        TKT-2026-00127 | Budi W. | Pinjaman | Tanya pelunasan | <color:orange>Sedang</color> | <color:blue>Baru</color> | 30 mnt | [ Proses ]
+        TKT-2026-00126 | Citra D. | Teknis | Tidak bisa login | <color:red>Tinggi</color> | <color:orange>Diproses</color> | 1 jam | [ Lihat ]
+        TKT-2026-00125 | Dewi A. | Keanggotaan | Update data | <color:gray>Rendah</color> | <color:orange>Diproses</color> | 2 jam | [ Lihat ]
+        TKT-2026-00124 | Eko P. | Simpanan | Bunga tidak masuk | <color:orange>Sedang</color> | <color:green>Selesai</color> | 1 hari | [ Lihat ]
+      }
+      .
+      { [ << Sebelumnya ] | Halaman 1 dari 5 | [ Selanjutnya >> ] }
+    }
+  }
+}
+
+@enduml

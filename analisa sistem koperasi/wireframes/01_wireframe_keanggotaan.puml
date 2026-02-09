@@ -1,0 +1,44 @@
+@startuml Wireframe_Keanggotaan
+
+title **Wireframe Modul Keanggotaan** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Keanggotaan | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    {+
+      <b>REGISTRASI ANGGOTA BARU
+      --
+      {
+        Nama Lengkap    | "                                        "
+        NIK (16 digit)  | "                                        "
+        Tempat Lahir    | "                    " | Tanggal Lahir | "DD/MM/YYYY"
+        Jenis Kelamin   | ^Laki-laki^
+        Alamat          | {SI
+        Alamat lengkap...
+        .
+        }
+        RT/RW           | "     " / "     " | Kelurahan | "                    "
+        Kecamatan       | "                    " | Kota/Kab | "                    "
+        Provinsi        | ^Pilih Provinsi^
+        Kode Pos        | "          "
+        --
+        No. Handphone   | "                                        "
+        Email           | "                                        "
+        Pekerjaan       | ^Pilih Pekerjaan^
+        Penghasilan     | ^Pilih Range Penghasilan^
+        --
+        <b>Upload Dokumen
+        Foto KTP        | [Choose File] | <i>Max 2MB (JPG/PNG)
+        Foto Selfie+KTP | [Choose File] | <i>Max 2MB (JPG/PNG)
+        --
+        [  ] Saya menyetujui Syarat & Ketentuan Keanggotaan
+        .
+        { [<b> DAFTAR SEKARANG ] | [ Batal ] }
+      }
+    }
+  }
+}
+
+@enduml

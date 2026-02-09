@@ -1,0 +1,55 @@
+@startuml Wireframe_Laporan_Transaksi
+
+title **Wireframe Laporan Transaksi** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>RIWAYAT TRANSAKSI
+    ==
+    {
+      {+
+        <b>Filter
+        --
+        Periode     | ^Bulan Ini^ | Dari "01/01/2026" s/d "18/01/2026"
+        Jenis       | ^Semua Transaksi^
+        Status      | ^Semua Status^
+        .
+        [ <&magnifying-glass> Terapkan Filter ] | [ Reset ]
+      }
+    }
+    ==
+    {
+      {
+        Total Masuk: <color:green><b>Rp 2.725.000</b></color>
+      }
+      |
+      {
+        Total Keluar: <color:red><b>Rp 1.000.000</b></color>
+      }
+      |
+      {
+        Jumlah Transaksi: <b>5 transaksi</b>
+      }
+    }
+    ==
+    {+
+      {#
+        Tanggal | ID Transaksi | Jenis | Keterangan | Nominal | Status
+        18/01/2026 | TRX-20260118-001 | Setoran | Simpanan Sukarela | <color:green>+Rp 500.000</color> | <color:green>Sukses</color>
+        15/01/2026 | TRX-20260115-001 | Setoran | Simpanan Wajib | <color:green>+Rp 100.000</color> | <color:green>Sukses</color>
+        10/01/2026 | TRX-20260110-002 | Penarikan | Simpanan Sukarela | <color:red>-Rp 1.000.000</color> | <color:green>Sukses</color>
+        05/01/2026 | TRX-20260105-001 | Bunga | Bunga Bulanan | <color:green>+Rp 125.000</color> | <color:green>Sukses</color>
+        01/01/2026 | TRX-20260101-001 | Setoran | Simpanan Sukarela | <color:green>+Rp 2.000.000</color> | <color:green>Sukses</color>
+      }
+      .
+      { [ << Sebelumnya ] | Halaman 1 dari 1 | [ Selanjutnya >> ] }
+    }
+    ==
+    { [ <&document> Download PDF ] | [ <&spreadsheet> Download Excel ] }
+  }
+}
+
+@enduml

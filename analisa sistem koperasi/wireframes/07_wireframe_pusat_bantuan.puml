@@ -1,0 +1,70 @@
+@startuml Wireframe_Pusat_Bantuan
+
+title **Wireframe Pusat Bantuan** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Bantuan | [Logout]}
+  --
+  {
+    <b>PUSAT BANTUAN
+    ==
+    {
+      <&magnifying-glass> | "Cari pertanyaan atau topik bantuan...                              " | [ Cari ]
+    }
+    ==
+    {
+      {+
+        <b>KATEGORI FAQ
+        --
+        [<&credit-card> Simpanan]
+        Setoran, Penarikan, Bunga
+        --
+        [<&dollar> Pinjaman]
+        Pengajuan, Angsuran, Pelunasan
+        --
+        [<&person> Keanggotaan]
+        Registrasi, Profil, Status
+        --
+        [<&lock-locked> Keamanan]
+        Password, 2FA, Akun
+      }
+      |
+      {+
+        <b>PERTANYAAN POPULER
+        --
+        <&question-mark> Bagaimana cara mengajukan pinjaman?
+        --
+        <&question-mark> Berapa saldo minimum simpanan sukarela?
+        --
+        <&question-mark> Bagaimana cara mengaktifkan 2FA?
+        --
+        <&question-mark> Kapan SHU dibagikan?
+        --
+        <&question-mark> Bagaimana cara melunasi pinjaman lebih awal?
+        --
+        [ Lihat Semua FAQ >> ]
+      }
+    }
+    ==
+    {+
+      <b>BUTUH BANTUAN LEBIH LANJUT?
+      --
+      {
+        [ <&envelope-closed> Ajukan Tiket Bantuan ] | [ <&phone> Hubungi CS: 021-1234567 ] | [ <&comment-square> Live Chat ]
+      }
+    }
+    ==
+    {+
+      <b>TIKET BANTUAN SAYA
+      --
+      {#
+        No. Tiket | Tanggal | Subjek | Status
+        TKT-2026-00123 | 17/01/2026 | Gagal transfer ke rekening | <color:orange>Diproses</color>
+        TKT-2025-00456 | 10/12/2025 | Pertanyaan tentang SHU | <color:green>Selesai</color>
+      }
+    }
+  }
+}
+
+@enduml

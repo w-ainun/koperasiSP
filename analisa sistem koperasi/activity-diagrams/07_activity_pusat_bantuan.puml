@@ -1,0 +1,331 @@
+@startuml Activity_Modul_Pusat_Bantuan
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Pusat Bantuan**\nKSP Sejahtera Abadi
+
+|Admin|
+start
+note right: **PROSES KIRIM PENGUMUMAN MASSAL**
+:Akses Menu Broadcast;
+:Buat Pengumuman Baru;
+
+if (Gunakan Template?) then (ya)
+    :Pilih Template Tersimpan;
+    :Edit Konten Template;
+else (tidak)
+    :Tulis Konten Baru;
+endif
+
+:Pilih Target Group Penerima;
+if (Target?) then (Semua Anggota)
+    :Set Target Semua Anggota;
+else (Kelompok Tertentu)
+    :Pilih Filter Anggota;
+    fork
+        :Filter Anggota dengan Pinjaman Aktif;
+    fork again
+        :Filter Anggota dengan Status Tertentu;
+    fork again
+        :Filter Berdasarkan Wilayah;
+    end fork
+endif
+
+:Pilih Channel Pengiriman;
+fork
+    if (Push Notification?) then (ya)
+        :Aktifkan Push Notification;
+    endif
+fork again
+    if (In-App Banner?) then (ya)
+        :Aktifkan In-App Banner;
+    endif
+fork again
+    if (Email?) then (ya)
+        :Aktifkan Email;
+    endif
+fork again
+    if (WhatsApp?) then (ya)
+        :Aktifkan WhatsApp;
+    endif
+end fork
+
+:Preview Pengumuman;
+
+if (Simpan Draf?) then (ya)
+    |Sistem|
+    :Simpan sebagai Draf;
+else (Kirim Sekarang)
+    |Sistem|
+    :Proses Pengiriman;
+    :Kirim ke Semua Channel Aktif;
+    :Catat Log Pengiriman;
+endif
+
+|Anggota|
+:Terima Pengumuman;
+:Lihat Riwayat Pengumuman;
+
+stop
+
+@enduml
+:Akses Menu Bantuan;
+:Pilih Ajukan Keluhan;
+:Isi Formulir Keluhan;
+
+fork
+    :Input Subjek Keluhan;
+fork again
+    :Pilih Kategori;
+    note right
+      - Simpanan
+      - Pinjaman
+      - Profil
+      - Teknis
+      - Lainnya
+    end note
+fork again
+    :Input Deskripsi Masalah;
+fork again
+    :Upload Bukti (Screenshot);
+    note right
+      Opsional
+    end note
+end fork
+
+:Submit Tiket;
+
+|Sistem|
+:Generate Nomor Tiket;
+:Set Status = Open;
+:Kirim Konfirmasi ke Anggota;
+
+|Anggota|
+:Terima Konfirmasi & Nomor Tiket;
+stop
+
+==Proses Kelola Tiket Bantuan (Admin)==
+
+|Admin|
+start
+:Akses Dashboard Helpdesk;
+:Lihat Antrean Tiket Open;
+
+|Sistem|
+:Tampilkan Daftar Tiket;
+:Urutkan Berdasarkan Prioritas;
+
+|Admin|
+:Pilih Tiket;
+:Lihat Detail Keluhan;
+:Set Status = Processing;
+
+|Sistem|
+:Kirim Notifikasi ke Anggota;
+note right
+  Status tiket sedang diproses
+end note
+
+|Admin|
+:Investigasi Masalah;
+:Verifikasi Data Terkait;
+:Tambah Internal Notes;
+
+if (Perlu Eskalasi?) then (ya)
+    :Eskalasi ke Pengurus;
+    |Pengurus|
+    :Review Tiket;
+    :Berikan Arahan;
+    |Admin|
+    :Terima Arahan;
+endif
+
+|Admin|
+:Tulis Solusi;
+:Resolve Tiket;
+:Set Status = Resolved;
+
+|Sistem|
+:Kirim Notifikasi Resolusi;
+
+|Anggota|
+:Terima Notifikasi Resolusi;
+:Lihat Solusi;
+
+if (Puas dengan Solusi?) then (ya)
+    :Konfirmasi Selesai;
+else (tidak)
+    :Buka Tiket Kembali;
+    :Tambah Komentar;
+    |Admin|
+    :Review Ulang;
+endif
+
+stop
+
+==Proses Akses FAQ==
+
+|Anggota|
+start
+:Akses Halaman FAQ;
+
+|Sistem|
+:Load Daftar FAQ;
+:Tampilkan Kategori FAQ;
+
+|Anggota|
+if (Cari Pertanyaan?) then (ya)
+    :Input Kata Kunci;
+    |Sistem|
+    :Search Engine FAQ;
+    :Tampilkan Hasil Pencarian;
+else (tidak)
+    :Pilih Kategori FAQ;
+    |Sistem|
+    if (Kategori?) then (Simpanan)
+        :Tampilkan FAQ Simpanan;
+    elseif (Pinjaman) then
+        :Tampilkan FAQ Pinjaman;
+    else (Keamanan)
+        :Tampilkan FAQ Keamanan Akun;
+    endif
+endif
+
+|Anggota|
+:Pilih Pertanyaan;
+
+|Sistem|
+:Tampilkan Jawaban;
+
+|Anggota|
+:Beri Rating Artikel;
+if (Helpful?) then (ya)
+    :Klik Jempol Atas;
+else (tidak)
+    :Klik Jempol Bawah;
+endif
+
+|Sistem|
+:Simpan Rating;
+:Update Statistik;
+
+stop
+
+==Proses Kelola Konten FAQ (Admin)==
+
+|Admin|
+start
+:Akses Menu Kelola FAQ;
+:Lihat Daftar FAQ;
+
+if (Aksi?) then (Tambah)
+    :Buat FAQ Baru;
+    :Input Pertanyaan;
+    :Input Jawaban;
+    :Pilih Kategori;
+    |Sistem|
+    :Simpan FAQ Baru;
+elseif (Edit) then
+    |Admin|
+    :Pilih FAQ;
+    :Edit Pertanyaan/Jawaban;
+    |Sistem|
+    :Update FAQ;
+elseif (Hapus) then
+    |Admin|
+    :Pilih FAQ;
+    :Konfirmasi Hapus;
+    |Sistem|
+    :Hapus FAQ;
+else (Lihat Statistik)
+    |Sistem|
+    :Tampilkan Statistik Rating;
+    :Tampilkan FAQ Populer;
+    :Tampilkan FAQ Rating Rendah;
+endif
+
+stop
+
+==Proses Atur Preferensi Notifikasi==
+
+|Anggota|
+start
+:Akses Menu Pengaturan;
+:Pilih Preferensi Notifikasi;
+
+|Sistem|
+:Load Preferensi Saat Ini;
+
+|Anggota|
+fork
+    :Toggle Push Notification;
+fork again
+    :Toggle Email Notification;
+fork again
+    :Toggle WhatsApp Notification;
+fork again
+    :Toggle SMS Notification;
+end fork
+
+:Pilih Jenis Notifikasi;
+note right
+  - Transaksi
+  - Promo
+  - Pengumuman
+  - Reminder
+end note
+
+:Simpan Preferensi;
+
+|Sistem|
+:Update Preferensi Notifikasi;
+:Konfirmasi Perubahan;
+
+stop
+
+==Proses Kelola Template Message==
+
+|Admin|
+start
+:Akses Menu Template Message;
+:Lihat Daftar Template;
+
+if (Aksi?) then (Buat Baru)
+    :Buat Template Baru;
+    :Input Nama Template;
+    :Input Konten Template;
+    :Pilih Kategori;
+    note right
+      - Pengumuman
+      - Reminder
+      - Notifikasi Transaksi
+      - Promosi
+    end note
+    |Sistem|
+    :Simpan Template;
+elseif (Edit) then
+    |Admin|
+    :Pilih Template;
+    :Edit Konten;
+    |Sistem|
+    :Update Template;
+else (Hapus)
+    |Admin|
+    :Pilih Template;
+    :Konfirmasi Hapus;
+    |Sistem|
+    :Hapus Template;
+endif
+
+stop
+
+@enduml

@@ -1,0 +1,54 @@
+@startuml Wireframe_Pengaturan_Konfigurasi
+
+title **Wireframe Pengaturan & Konfigurasi** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP ADMIN PANEL | Dashboard | Anggota | Simpanan | Pinjaman | Laporan | Pengaturan}
+  --
+  {
+    <b>PENGATURAN & KONFIGURASI SISTEM
+    ==
+    { [<&dollar> Keuangan] | [<&calendar> Tenor] | [<&bar-chart> Plafon] | [<&credit-card> Simpanan] | [<&cog> Sistem] | [<&list> Log] }
+    ==
+    {+
+      <b>PARAMETER KEUANGAN
+      --
+      {#
+        Parameter | Nilai Saat Ini | Aksi
+        Bunga Simpanan (% Tahunan) | "   6.00   " % | [ Edit ]
+        Bunga Pinjaman (% Bulanan) | "   1.50   " % | [ Edit ]
+        Metode Bunga Pinjaman | ^Flat^ | [ Edit ]
+        Biaya Registrasi Anggota | Rp "  100.000  " | [ Edit ]
+        Biaya Provisi (% Pencairan) | "   1.00   " % | [ Edit ]
+        Biaya Admin Bulanan | Rp "        0  " | [ Edit ]
+      }
+    }
+    ==
+    {+
+      <b>KEBIJAKAN DENDA KETERLAMBATAN
+      --
+      {
+        Jenis Denda     | (X) Persentase ( ) Flat
+        Nilai Denda     | "  0.10  " % per hari
+        Denda Maksimal  | "  10.00 " % dari tagihan
+        Grace Period    | "   3    " hari
+      }
+      .
+      [ Simpan Perubahan ]
+    }
+    ==
+    {+
+      <b>RIWAYAT PERUBAHAN KONFIGURASI
+      --
+      {#
+        Tanggal | User | Parameter | Nilai Lama | Nilai Baru
+        15/01/2026 | admin01 | Bunga Pinjaman | 1.75% | 1.50%
+        01/01/2026 | pengurus01 | Bunga Simpanan | 5.50% | 6.00%
+        15/12/2025 | admin01 | Grace Period | 0 hari | 3 hari
+      }
+    }
+  }
+}
+
+@enduml

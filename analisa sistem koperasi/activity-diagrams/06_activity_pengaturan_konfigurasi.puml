@@ -1,0 +1,283 @@
+@startuml Activity_Modul_Pengaturan_Konfigurasi
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Pengaturan & Konfigurasi**\nKSP Sejahtera Abadi
+
+|Pengurus|
+start
+note right: **PROSES KELOLA PARAMETER KEUANGAN**
+:Akses Menu Pengaturan;
+:Pilih Parameter Keuangan;
+
+fork
+    :Atur Bunga Simpanan;
+    :Input Persentase Tahunan;
+fork again
+    :Atur Bunga Pinjaman;
+    :Input Persentase Bulanan;
+    :Pilih Metode Perhitungan;
+    if (Metode?) then (Flat)
+        :Set Metode Bunga Flat;
+    elseif (Effective) then
+        :Set Metode Bunga Menurun;
+    else (Anuitas)
+        :Set Metode Bunga Anuitas;
+    endif
+fork again
+    :Atur Biaya Registrasi;
+    :Input Nominal Biaya;
+fork again
+    :Atur Provisi;
+    :Input Persentase dari Pencairan;
+fork again
+    :Atur Biaya Admin Bulanan;
+    :Input Nominal;
+end fork
+
+|Sistem|
+:Validasi Input;
+:Simpan Konfigurasi;
+:Catat Log Perubahan;
+
+|Pengurus|
+:Lihat Konfirmasi;
+stop
+
+@enduml
+:Akses Menu Kebijakan Denda;
+
+:Pilih Jenis Denda;
+if (Jenis Denda?) then (Persentase)
+    :Set Denda Persentase;
+    :Input Persen per Hari;
+    note right
+      Contoh: 0.1% per hari
+    end note
+else (Flat)
+    :Set Denda Flat;
+    :Input Nominal per Hari;
+    note right
+      Contoh: Rp 5.000/hari
+    end note
+endif
+
+:Atur Grace Period;
+:Input Jumlah Hari Masa Tenggang;
+
+|Sistem|
+:Simpan Konfigurasi Denda;
+:Catat Log Perubahan;
+
+stop
+
+==Proses Kelola Tenor Pinjaman==
+
+|Admin|
+start
+:Akses Menu Kelola Tenor;
+:Lihat Daftar Opsi Tenor;
+
+if (Aksi?) then (Tambah)
+    :Input Tenor Baru;
+    :Input Jumlah Bulan;
+    |Sistem|
+    :Validasi Duplikasi;
+    if (Sudah Ada?) then (ya)
+        :Tampilkan Error;
+    else (tidak)
+        :Simpan Tenor Baru;
+    endif
+elseif (Edit) then
+    |Admin|
+    :Pilih Tenor;
+    :Aktifkan/Nonaktifkan Tenor;
+    |Sistem|
+    :Update Status Tenor;
+else (Hapus)
+    |Admin|
+    :Pilih Tenor;
+    |Sistem|
+    :Cek Pinjaman Aktif dengan Tenor;
+    if (Ada Pinjaman Aktif?) then (ya)
+        :Tampilkan Warning;
+        :Tidak Bisa Dihapus;
+    else (tidak)
+        :Hapus Opsi Tenor;
+    endif
+endif
+
+|Sistem|
+:Catat Log Perubahan;
+
+stop
+
+==Proses Kelola Plafon Pinjaman==
+
+|Pengurus|
+start
+:Akses Menu Kelola Plafon;
+
+fork
+    :Atur Plafon Berdasarkan Status;
+    :Set Plafon Anggota Baru;
+    :Input Nominal Maksimal;
+    :Set Plafon Anggota Lama;
+    :Input Nominal Maksimal;
+fork again
+    :Atur Plafon Berdasarkan Simpanan;
+    :Set Rasio Kelipatan;
+    :Input Rasio Maksimal;
+    note right
+      Contoh: 3x Total Simpanan
+    end note
+fork again
+    :Atur Plafon Absolut;
+    :Set Nominal Batas Maksimal;
+    note right
+      Contoh: Rp 50.000.000
+    end note
+end fork
+
+|Sistem|
+:Simpan Konfigurasi Plafon;
+:Catat Log Perubahan;
+
+stop
+
+==Proses Kelola Parameter Simpanan==
+
+|Pengurus|
+start
+:Akses Menu Parameter Simpanan;
+
+fork
+    :Set Nominal Simpanan Pokok;
+    :Input Nominal Wajib Saat Daftar;
+fork again
+    :Set Nominal Simpanan Wajib;
+    :Input Nominal Wajib Bulanan;
+fork again
+    :Set Saldo Minimum Sukarela;
+    :Input Saldo Minimum;
+    note right
+      Saldo yang harus tetap
+      tersisa saat penarikan
+    end note
+end fork
+
+|Sistem|
+:Validasi Input;
+:Simpan Konfigurasi;
+:Catat Log Perubahan;
+
+stop
+
+==Proses Kelola Parameter Sistem==
+
+|Admin|
+start
+:Akses Menu Parameter Sistem;
+
+fork
+    :Atur Batas DTI Ratio;
+    :Input Persentase DTI;
+    note right
+      Debt-to-Income Ratio
+      untuk validasi kelayakan
+    end note
+fork again
+    :Atur Batas Hari NPL;
+    :Input Jumlah Hari;
+    note right
+      Threshold untuk
+      kategorisasi NPL
+    end note
+fork again
+    :Atur Threshold Penarikan;
+    :Input Nominal Threshold;
+    note right
+      Batas approval
+      Admin vs Pengurus
+    end note
+fork again
+    :Atur Format Nomor Anggota;
+    :Input Pattern Format;
+    note right
+      Contoh: KSP-2024-XXXXX
+    end note
+end fork
+
+|Sistem|
+:Validasi Input;
+:Simpan Konfigurasi;
+:Catat Log Perubahan;
+
+stop
+
+==Proses Audit Log Konfigurasi==
+
+|Admin|
+start
+:Akses Menu Log Konfigurasi;
+
+|Sistem|
+:Load Riwayat Perubahan;
+:Tampilkan Daftar Log;
+note right
+  - Tanggal Perubahan
+  - User yang Mengubah
+  - Parameter yang Diubah
+  - Nilai Sebelum
+  - Nilai Sesudah
+end note
+
+|Admin|
+if (Filter Log?) then (ya)
+    :Pilih Filter;
+    fork
+        :Filter Tanggal;
+    fork again
+        :Filter Jenis Parameter;
+    fork again
+        :Filter User;
+    end fork
+    |Sistem|
+    :Query Log dengan Filter;
+    :Tampilkan Hasil Filter;
+else (tidak)
+    :Lihat Semua Log;
+endif
+
+|Admin|
+if (Lihat Detail?) then (ya)
+    :Pilih Log Entry;
+    |Sistem|
+    :Tampilkan Detail Perubahan;
+    :Tampilkan Nilai Sebelum;
+    :Tampilkan Nilai Sesudah;
+else (tidak)
+    :Selesai;
+endif
+
+|Admin|
+if (Export Log?) then (ya)
+    |Sistem|
+    :Generate Report Log;
+    :Download File;
+else (tidak)
+    :Selesai;
+endif
+
+stop
+
+@enduml

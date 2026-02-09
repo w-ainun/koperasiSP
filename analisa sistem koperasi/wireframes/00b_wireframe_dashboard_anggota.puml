@@ -1,0 +1,85 @@
+@startuml Wireframe_Dashboard_Anggota
+
+title **Wireframe Dashboard Anggota** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | Bantuan | [Logout]}
+  --
+  {
+    <b>Selamat Datang, Ahmad Santoso!
+    No. Anggota: KSP-2024-00123 | Status: <color:green>AKTIF</color>
+    ==
+    {
+      {+
+        <b><&wallet> TOTAL SIMPANAN
+        --
+        <b><size:20>Rp 19.150.000</size>
+        .
+        Pokok: Rp 1.000.000
+        Wajib: Rp 2.400.000
+        Sukarela: Rp 15.750.000
+        .
+        [ Lihat Detail ]
+      }
+      |
+      {+
+        <b><&credit-card> PINJAMAN AKTIF
+        --
+        <b><size:20>Rp 18.500.000</size>
+        <i>Sisa dari Rp 25.000.000</i>
+        .
+        Angsuran: Rp 1.250.000/bln
+        Jatuh Tempo: <color:red>25 Jan 2026</color>
+        .
+        [ Bayar Angsuran ]
+      }
+      |
+      {+
+        <b><&pie-chart> SHU 2025
+        --
+        <b><size:20>Rp 2.000.000</size>
+        .
+        Jasa Modal: Rp 1.250.000
+        Jasa Pinjam: Rp 750.000
+        .
+        [ Lihat Rincian ]
+      }
+    }
+    ==
+    {
+      {+
+        <b>AKSI CEPAT
+        --
+        {
+          [ <&plus> Setoran ] | [ <&arrow-top> Tarik Dana ] | [ <&document> Ajukan Pinjaman ] | [ <&calculator> Simulasi ]
+        }
+      }
+    }
+    ==
+    {
+      {+
+        <b><&bell> NOTIFIKASI TERBARU
+        --
+        <color:red>●</color> Angsuran jatuh tempo 7 hari lagi
+        <color:blue>●</color> Bunga simpanan Jan 2026 dikreditkan
+        <color:green>●</color> Tiket bantuan TKT-00123 sudah selesai
+        .
+        [ Lihat Semua ]
+      }
+      |
+      {+
+        <b><&list> TRANSAKSI TERAKHIR
+        --
+        18/01 | Setoran Sukarela | <color:green>+Rp 500.000</color>
+        15/01 | Setoran Wajib | <color:green>+Rp 100.000</color>
+        10/01 | Penarikan | <color:red>-Rp 1.000.000</color>
+        05/01 | Bunga Simpanan | <color:green>+Rp 125.000</color>
+        .
+        [ Lihat Semua ]
+      }
+    }
+  }
+}
+
+@enduml

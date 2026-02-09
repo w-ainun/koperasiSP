@@ -1,0 +1,58 @@
+@startuml Wireframe_Simpanan
+
+title **Wireframe Dashboard Simpanan** - KSP Sejahtera Abadi
+
+salt
+{+
+  {/ <b>KSP SEJAHTERA ABADI | Beranda | Simpanan | Pinjaman | Laporan | [Logout]}
+  --
+  {
+    <b>DASHBOARD SIMPANAN
+    ==
+    {
+      {+
+        <b>SIMPANAN POKOK
+        --
+        <b><size:18>Rp 1.000.000</size>
+        <i><color:gray>Wajib saat mendaftar</color>
+      }
+      |
+      {+
+        <b>SIMPANAN WAJIB
+        --
+        <b><size:18>Rp 2.400.000</size>
+        <i><color:gray>24 bulan x Rp 100.000</color>
+      }
+      |
+      {+
+        <b>SIMPANAN SUKARELA
+        --
+        <b><size:18>Rp 15.750.000</size>
+        <i><color:gray>Bisa ditarik kapan saja</color>
+      }
+    }
+    ==
+    {
+      <b>TOTAL SIMPANAN: <size:20>Rp 19.150.000</size>
+    }
+    ==
+    { [ <&plus> Setoran Baru ] | [ <&arrow-top> Tarik Dana ] | [ <&document> E-Passbook ] }
+    ==
+    {+
+      <b>RIWAYAT TRANSAKSI TERAKHIR
+      --
+      {#
+        Tanggal | Jenis | Keterangan | Nominal | Status
+        18/01/2026 | Setoran | Simpanan Sukarela | <color:green>+Rp 500.000</color> | <color:green>Sukses</color>
+        15/01/2026 | Setoran | Simpanan Wajib | <color:green>+Rp 100.000</color> | <color:green>Sukses</color>
+        10/01/2026 | Penarikan | Simpanan Sukarela | <color:red>-Rp 1.000.000</color> | <color:green>Sukses</color>
+        05/01/2026 | Bunga | Bunga Simpanan | <color:green>+Rp 125.000</color> | <color:green>Sukses</color>
+        01/01/2026 | Setoran | Simpanan Sukarela | <color:green>+Rp 2.000.000</color> | <color:green>Sukses</color>
+      }
+      .
+      [ Lihat Semua Transaksi >> ]
+    }
+  }
+}
+
+@enduml

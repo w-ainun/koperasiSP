@@ -1,0 +1,274 @@
+@startuml Activity_Modul_Laporan_Transaksi
+
+' ===== VISUAL STYLING =====
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+    ArrowColor #000000
+}
+skinparam swimlane {
+    BorderColor #000000
+}
+
+title **Activity Diagram - Modul Laporan Transaksi**\nKSP Sejahtera Abadi
+
+|Anggota|
+start
+note right: **PROSES LIHAT RIWAYAT TRANSAKSI**
+:Akses Menu Laporan Transaksi;
+:Pilih Riwayat Transaksi;
+
+|Sistem|
+:Load Data Transaksi Default;
+note right
+  Default: 30 hari terakhir
+end note
+
+|Anggota|
+if (Gunakan Filter?) then (ya)
+    :Pilih Filter Tingkat Lanjut;
+    
+    fork
+        :Filter Rentang Waktu;
+        if (Tipe Filter Waktu?) then (Harian)
+            :Pilih Tanggal Spesifik;
+        elseif (Mingguan) then
+            :Pilih Minggu;
+        elseif (Bulanan) then
+            :Pilih Bulan;
+        else (Periode Kustom)
+            :Input Tanggal Mulai;
+            :Input Tanggal Akhir;
+        endif
+    fork again
+        :Filter Jenis Transaksi;
+        note right
+          - Setoran Simpanan
+          - Penarikan Dana
+          - Pencairan Pinjaman
+          - Pembayaran Angsuran
+        end note
+    fork again
+        :Filter Status Transaksi;
+        note right
+          - Menunggu Verifikasi
+          - Berhasil
+          - Gagal
+          - Dibatalkan
+        end note
+    end fork
+    
+    :Terapkan Filter;
+else (tidak)
+    :Gunakan Data Default;
+endif
+
+|Sistem|
+:Query Data dengan Filter;
+:Tampilkan Daftar Transaksi;
+
+|Anggota|
+if (Lihat Detail?) then (ya)
+    :Pilih Transaksi;
+    |Sistem|
+    :Tampilkan Detail Transaksi;
+    note right
+      - ID Transaksi
+      - Tanggal & Waktu
+      - Jenis Transaksi
+      - Nominal
+      - Status
+      - Keterangan
+    end note
+else (tidak)
+    :Lanjut;
+endif
+
+stop
+
+@enduml
+:Akses Menu E-Statement;
+:Pilih Periode Statement;
+
+|Sistem|
+:Ambil Data Transaksi Periode;
+:Hitung Ringkasan Saldo;
+
+fork
+    :Hitung Saldo Awal Periode;
+fork again
+    :Hitung Total Mutasi Masuk;
+fork again
+    :Hitung Total Mutasi Keluar;
+fork again
+    :Hitung Saldo Akhir Periode;
+end fork
+
+:Generate Dokumen PDF;
+:Tambahkan Logo Koperasi;
+:Tambahkan Tanda Tangan Digital;
+:Generate QR Code Keabsahan;
+:Embed QR Code ke Dokumen;
+
+|Anggota|
+:Preview E-Statement;
+
+if (Download?) then (ya)
+    :Pilih Format;
+    if (Format?) then (PDF)
+        |Sistem|
+        :Download PDF;
+    else (Excel)
+        |Sistem|
+        :Convert ke Excel;
+        :Download Excel;
+    endif
+else (tidak)
+    :Selesai;
+endif
+
+stop
+
+==Proses Dashboard Rekapitulasi (Admin)==
+
+|Admin|
+start
+:Akses Dashboard Rekapitulasi;
+
+|Sistem|
+fork
+    :Load Rekapitulasi Dana Masuk;
+    :Hitung Total Simpanan per Kategori;
+fork again
+    :Load Dashboard Penyaluran Kredit;
+    :Hitung Total Pinjaman Dicairkan;
+    :Hitung Total Pinjaman Dikembalikan;
+fork again
+    :Load Laporan Laba Rugi Interim;
+    :Hitung Pendapatan Bunga Pinjaman;
+    :Hitung Biaya Operasional;
+    :Hitung Bunga Simpanan Anggota;
+end fork
+
+:Tampilkan Dashboard Terkonsolidasi;
+
+|Admin|
+if (Export Laporan?) then (ya)
+    :Pilih Jenis Laporan;
+    :Pilih Format Export;
+    |Sistem|
+    :Generate Laporan;
+    :Download File;
+else (tidak)
+    :Selesai;
+endif
+
+stop
+
+==Proses Laporan NPL (Collection)==
+
+|Collection|
+start
+:Akses Menu Laporan NPL;
+
+|Sistem|
+:Query Data Pinjaman Bermasalah;
+:Kategorisasi Kolektibilitas;
+
+fork
+    :Identifikasi Lancar;
+fork again
+    :Identifikasi Dalam Perhatian Khusus;
+    note right
+      Tunggakan 1-90 hari
+    end note
+fork again
+    :Identifikasi Kurang Lancar;
+    note right
+      Tunggakan 91-120 hari
+    end note
+fork again
+    :Identifikasi Diragukan;
+    note right
+      Tunggakan 121-180 hari
+    end note
+fork again
+    :Identifikasi Macet;
+    note right
+      Tunggakan >180 hari
+    end note
+end fork
+
+:Hitung Rasio NPL Otomatis;
+note right
+  NPL Ratio = (Pinjaman Bermasalah /
+  Total Pinjaman) x 100%
+end note
+
+:Tampilkan Dashboard NPL;
+
+|Collection|
+if (Generate Laporan Bulanan?) then (ya)
+    |Sistem|
+    :Generate Laporan NPL Bulanan;
+    :Sertakan Grafik Trend;
+    :Download Laporan;
+else (tidak)
+    :Selesai;
+endif
+
+|Collection|
+if (Lihat Detail Debitur?) then (ya)
+    :Pilih Kategori Kolektibilitas;
+    |Sistem|
+    :Tampilkan Daftar Debitur;
+    |Collection|
+    :Pilih Debitur;
+    |Sistem|
+    :Tampilkan Detail Pinjaman;
+    :Tampilkan Riwayat Pembayaran;
+    :Tampilkan History Penagihan;
+else (tidak)
+    :Selesai;
+endif
+
+stop
+
+==Proses Download Laporan Periodik==
+
+|Pengurus|
+start
+:Akses Menu Laporan Periodik;
+:Pilih Jenis Laporan;
+note right
+  - Laporan Keuangan
+  - Laporan Anggota
+  - Laporan Pinjaman
+  - Laporan Simpanan
+  - Laporan SHU
+end note
+
+:Pilih Periode Laporan;
+
+|Sistem|
+:Validasi Akses;
+:Generate Laporan;
+
+fork
+    :Compile Data;
+fork again
+    :Format Dokumen;
+fork again
+    :Generate Grafik;
+end fork
+
+:Finalisasi Dokumen;
+
+|Pengurus|
+:Preview Laporan;
+:Download Laporan;
+
+stop
+
+@enduml
