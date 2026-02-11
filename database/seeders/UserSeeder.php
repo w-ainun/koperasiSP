@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@kspsejahtera.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
-            'status' => 'active',
+            'status' => 'active', 
             'phone' => '081234567890',
             'email_verified_at' => now(),
         ]);
